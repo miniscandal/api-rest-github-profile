@@ -3,12 +3,22 @@
  */
 package org.example;
 
-public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
+import java.util.HashMap;
+import java.util.Map;
 
-    public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+import org.example.core.HttpCommunicationService;
+import org.example.core.HttpServerHandler;
+import org.example.models.User;
+
+import com.sun.net.httpserver.HttpHandler;
+
+public class App {
+    public static void main(String... args) {
+        Map<String, HttpHandler> routes = new HashMap<>();
+        String apiDomain = "https://api.github.com";
+
+        routes.put("/user", new HttpCommunicationService(User.class, apiDomain + "/users/miniscandal"));
+
+        HttpServerHandler.start(routes);
     }
 }
