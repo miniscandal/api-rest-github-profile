@@ -2,12 +2,11 @@ package org.example.core;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.util.Map;
 
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
-public class HttpServerHandler {
+public class Routing {
     private static HttpServer httpServer;
     private static final String hostname = "localhost";
     private static final int port = 8080;
@@ -17,22 +16,15 @@ public class HttpServerHandler {
             httpServer = HttpServer.create();
             httpServer.bind(new InetSocketAddress(hostname, port), 0);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Error: " + e);
         }
     }
 
-    public static void createContexts(Map<String, HttpHandler> httpHandlers) {
-        for (Map.Entry<String, HttpHandler> route : httpHandlers.entrySet()) {
-            String path = route.getKey();
-            HttpHandler httpHandler = route.getValue();
-
-            httpServer.createContext(path, httpHandler);
-        }
-
+    public static void createContext(String uri, HttpHandler httpHandler) {
+        httpServer.createContext(uri, httpHandler);
     }
 
-    public static void start(Map<String, HttpHandler> httpHandlers) {
-        createContexts(httpHandlers);
+    public static void start() {
         httpServer.start();
 
         System.out.println("Server started");

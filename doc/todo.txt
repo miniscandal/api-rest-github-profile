@@ -1,8 +1,1 @@
-✰ Refactorizar la clase HttpCommunicationService
-
-Dividir la parte del código que se encarga de realizar
-peticiones a la API REST de GitHub de la parte que maneja las solicitudes
-dentro de este sistema o servicio API REST.
-
-
-✰
+✰ 

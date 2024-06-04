@@ -1,6 +1,6 @@
 package org.example.models;
 
-public class User {
+public class Profile {
     private String avatar_url;
     private String reposUrl;
     private String name;
