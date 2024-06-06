@@ -7,6 +7,7 @@ public class Repo {
     private boolean isPrivate;
     private String html_url;
     private String description;
+    private String url;
     private String commits_url;
     private String comments_url;
     private String created_at;
@@ -37,6 +38,10 @@ public class Repo {
 
     public String getDescription() {
         return description;
+    }
+
+    public String getUrl() {
+        return url;
     }
 
     public String getCommitsUrl() {

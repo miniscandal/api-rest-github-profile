@@ -2,7 +2,6 @@ package org.example.models;
 
 public class Profile {
     private String avatar_url;
-    private String reposUrl;
     private String name;
     private String company;
     private String location;
@@ -18,10 +17,6 @@ public class Profile {
 
     public String getAvatarUrl() {
         return avatar_url;
-    }
-
-    public String getReposUrl() {
-        return reposUrl;
     }
 
     public String getName() {

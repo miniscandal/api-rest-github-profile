@@ -89,7 +89,6 @@ public class HttpClientHandle {
             Object objectArray = Array.newInstance(classOft, 0);
             Object[] objects = (Object[]) gson.fromJson(reader, objectArray.getClass());
             bytes = gson.toJson(objects).getBytes();
-
         } else {
             bytes = handleStatusCode(statusCode);
         }
