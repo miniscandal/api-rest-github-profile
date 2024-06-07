@@ -6,20 +6,25 @@ import org.example.core.Controller;
 import org.example.models.Profile;
 
 public class ProfileController extends Controller {
-    private String uri = "https://api.github.com/users/miniscandal";
+    private String uri = "https://api.github.com/users";
 
     public ProfileController() {
         super(Profile.class);
     }
 
     @Override
-    public String getUri() {
-        return uri;
+    public void handle(HttpExchange exchange) {
+        RequestParameters parameters = (RequestParameters) getRequestParameters(exchange, RequestParameters.class);
+        String profileName = parameters.getName();
+        byte[] response = singleObjectResponse(uri + "/" + profileName);
+        sendResponse(exchange, response);
     }
 
-    @Override
-    public void handle(HttpExchange exchange) {
-        byte[] response = singleObjectResponse();
-        sendResponse(exchange, response);
+    class RequestParameters {
+        private String name;
+
+        public String getName() {
+            return name;
+        }
     }
 }

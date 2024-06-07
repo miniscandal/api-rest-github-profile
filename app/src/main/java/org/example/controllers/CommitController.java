@@ -13,13 +13,8 @@ public class CommitController extends Controller {
     }
 
     @Override
-    public String getUri() {
-        return uri;
-    }
-
-    @Override
     public void handle(HttpExchange exchange) {
-        byte[] response = arrayObjectsResponse();
+        byte[] response = arrayObjectsResponse(uri);
         sendResponse(exchange, response);
     }
 }
