@@ -17,11 +17,11 @@ import java.lang.reflect.Array;
 
 import com.google.gson.Gson;
 
-public class HttpClientHandle {
+public class ApiRequestExecuter {
     private static final HttpClient httpClient = HttpClient.newHttpClient();
     private Class<?> classOft;
 
-    public HttpClientHandle(Class<?> classOft) {
+    public ApiRequestExecuter(Class<?> classOft) {
         this.classOft = classOft;
     }
 

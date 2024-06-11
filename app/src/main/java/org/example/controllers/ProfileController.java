@@ -1,30 +1,21 @@
 package org.example.controllers;
 
-import com.sun.net.httpserver.HttpExchange;
-
 import org.example.core.Controller;
+import org.example.core.RequestParameters;
 import org.example.models.Profile;
 
 public class ProfileController extends Controller {
-    private String uri = "https://api.github.com/users";
+    private static final String BASE_URI = "https://api.github.com/users/{name}";
+    private static final Class<?> classOft = Profile.class;
 
     public ProfileController() {
-        super(Profile.class);
+        super(classOft, BASE_URI);
     }
 
     @Override
-    public void handle(HttpExchange exchange) {
-        RequestParameters parameters = (RequestParameters) getRequestParameters(exchange, RequestParameters.class);
-        String profileName = parameters.getName();
-        byte[] response = singleObjectResponse(uri + "/" + profileName);
-        sendResponse(exchange, response);
-    }
+    public byte[] manageResponse(RequestParameters requestParameters) {
+        byte[] response = singleObjectResponse();
 
-    class RequestParameters {
-        private String name;
-
-        public String getName() {
-            return name;
-        }
+        return response;
     }
 }

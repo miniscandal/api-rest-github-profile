@@ -3,45 +3,69 @@ package org.example.core;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Map;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
+import java.net.URI;
+
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
 
-public abstract class Controller implements HttpHandler {
-    public HttpClientHandle httpClientHandle;
+public abstract class Controller implements ConfigHttpHandler {
+    private String ROUTE_PATH;
+    private static String BASE_URI;
+    public final ApiRequestExecuter apiRequest;
+    public RequestParameters requestParameters = new RequestParameters();
 
-    public Controller(Class<?> classOft) {
-        httpClientHandle = new HttpClientHandle(classOft);
+    public abstract byte[] manageResponse(RequestParameters requestParameters);
+
+    public Controller(Class<?> classOft, String baseUri) {
+        BASE_URI = baseUri;
+        apiRequest = new ApiRequestExecuter(classOft);
     }
 
-    public byte[] singleObjectResponse(String uri) {
-        return httpClientHandle.singleObjectResponse(uri);
+    public void setRoutePath(String path) {
+        ROUTE_PATH = path;
     }
 
-    public byte[] arrayObjectsResponse(String uri) {
-        return httpClientHandle.arrayObjectResponse(uri);
-    }
+    public String normalizeUriPath() {
+        String uri = BASE_URI;
+        Map<String, String> parameters = requestParameters.getParameters();
 
-    public Object getRequestParameters(HttpExchange httpExchange, Class<?> classOft) {
-        String query = httpExchange.getRequestURI().getQuery();
-        Pattern pattern = Pattern.compile("([^&=]+)=([^&]+)");
-        Matcher matcher = pattern.matcher(query);
-        JsonObject jsonObject = new JsonObject();
-        while (matcher.find()) {
-            String key = matcher.group(1);
-            String value = matcher.group(2);
-            jsonObject.addProperty(key, value);
+        for (Map.Entry<String, String> parameter : parameters.entrySet()) {
+            String key = parameter.getKey();
+            String value = parameter.getValue();
+
+            uri = uri.replace("{" + key + "}", value);
         }
 
-        Gson gson = new Gson();
-        Object object = gson.fromJson(jsonObject, classOft);
+        return uri;
+    }
 
-        return object;
+    public byte[] singleObjectResponse() {
+        String uri = normalizeUriPath();
+        return apiRequest.singleObjectResponse(uri);
+    }
+
+    public byte[] arrayObjectsResponse() {
+        String uri = normalizeUriPath();
+        return apiRequest.arrayObjectResponse(uri);
+    }
+
+    public RequestParameters getRequestParameters(HttpExchange httpExchange) {
+        URI uri = httpExchange.getRequestURI();
+        String path = uri.getPath().replace(ROUTE_PATH, "");
+        String words[] = path.split("/");
+        Map<String, String> parameters = requestParameters.getParameters();
+        int index = 1;
+
+        for (Map.Entry<String, String> parameter : parameters.entrySet()) {
+            String key = parameter.getKey();
+            String value = words[index];
+            requestParameters.addParameters(key, value);
+            index++;
+        }
+
+        return requestParameters;
     }
 
     public void sendResponse(HttpExchange httpExchange, byte[] bytes) {
@@ -65,6 +89,15 @@ public abstract class Controller implements HttpHandler {
     }
 
     @Override
-    public void handle(HttpExchange exchange) throws IOException {
+    public void handle(HttpExchange httpExchange) throws IOException {
+        requestParameters = getRequestParameters(httpExchange);
+        requestParameters.displayParameters();
+        byte[] response = manageResponse(requestParameters);
+        sendResponse(httpExchange, response);
+    }
+
+    @Override
+    public void setRequestParameters(RequestParameters requestParameters) {
+        this.requestParameters = requestParameters;
     }
 }
