@@ -11,44 +11,30 @@ import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 
 public abstract class Controller implements ConfigHttpHandler {
+    private static String GITHUB_API_BASE_URI;
     private String ROUTE_PATH;
-    private static String BASE_URI;
-    public final ApiRequestExecuter apiRequest;
+    public final ApiRequestExecuter API_REQUEST;
     public RequestParameters requestParameters = new RequestParameters();
 
     public abstract byte[] manageResponse(RequestParameters requestParameters);
 
-    public Controller(Class<?> classOft, String baseUri) {
-        BASE_URI = baseUri;
-        apiRequest = new ApiRequestExecuter(classOft);
+    public Controller(Class<?> modelClass, String githubBaseUri) {
+        API_REQUEST = new ApiRequestExecuter(modelClass);
+        GITHUB_API_BASE_URI = githubBaseUri;
     }
 
     public void setRoutePath(String path) {
         ROUTE_PATH = path;
     }
 
-    public String normalizeUriPath() {
-        String uri = BASE_URI;
-        Map<String, String> parameters = requestParameters.getParameters();
-
-        for (Map.Entry<String, String> parameter : parameters.entrySet()) {
-            String key = parameter.getKey();
-            String value = parameter.getValue();
-
-            uri = uri.replace("{" + key + "}", value);
-        }
-
-        return uri;
-    }
-
     public byte[] singleObjectResponse() {
         String uri = normalizeUriPath();
-        return apiRequest.singleObjectResponse(uri);
+        return API_REQUEST.singleObjectResponse(uri);
     }
 
     public byte[] arrayObjectsResponse() {
         String uri = normalizeUriPath();
-        return apiRequest.arrayObjectResponse(uri);
+        return API_REQUEST.arrayObjectResponse(uri);
     }
 
     public RequestParameters getRequestParameters(HttpExchange httpExchange) {
@@ -99,5 +85,19 @@ public abstract class Controller implements ConfigHttpHandler {
     @Override
     public void setRequestParameters(RequestParameters requestParameters) {
         this.requestParameters = requestParameters;
+    }
+
+    private String normalizeUriPath() {
+        String uri = GITHUB_API_BASE_URI;
+        Map<String, String> parameters = requestParameters.getParameters();
+
+        for (Map.Entry<String, String> parameter : parameters.entrySet()) {
+            String key = parameter.getKey();
+            String value = parameter.getValue();
+
+            uri = uri.replace("{" + key + "}", value);
+        }
+
+        return uri;
     }
 }

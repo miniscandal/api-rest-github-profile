@@ -1,0 +1,32 @@
+⚝
+Requirements
+
+
+⚝
+Refactoring code
+
+★ Route.class: Configure environment variable for host and port
+
+
+⚝
+Document code
+
+★ Route.class
+
+
+⚝
+Unit test
+
+★ Route.class
+
+
+⚝ Order
+
+Constant static public
+Privates variable
+Abstract methods
+Constructor
+Public methods
+@Override
+Protected methods
+Private methods

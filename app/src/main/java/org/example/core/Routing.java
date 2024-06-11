@@ -13,25 +13,30 @@ public final class Routing {
     private static final HttpServer HTTP_SERVER;
     private static final String HOSTNAME = "localhost";
     private static final int PORT = 8080;
+    private static final String PARAMETER_PATTERN = "\\{(.*?)\\}";
+    private static final String NORMALIZE_URI_PATTERN = "/\\{.*?\\}/?$";
 
     static {
         HTTP_SERVER = initializeHttpServer();
     }
 
     private static HttpServer initializeHttpServer() {
+        HttpServer server = null;
         try {
-            HttpServer server = HttpServer.create();
+            server = HttpServer.create();
             server.bind(new InetSocketAddress(HOSTNAME, PORT), 0);
 
             return server;
         } catch (IOException e) {
-            throw new RuntimeException("Error creating HTTP server: " + e.getMessage(), e);
+            System.err.println("Error creating HTTP server: " + e.getMessage());
         }
+
+        return server;
     }
 
     private static RequestParameters extractRequestParameters(String uri) {
         RequestParameters requestParameters = new RequestParameters();
-        Pattern pattern = Pattern.compile("\\{(.*?)\\}");
+        Pattern pattern = Pattern.compile(PARAMETER_PATTERN);
         Matcher matcher = pattern.matcher(uri);
 
         while (matcher.find()) {
@@ -43,7 +48,7 @@ public final class Routing {
     }
 
     private static String normalizeUri(String uri) {
-        Pattern pattern = Pattern.compile("/\\{.*?\\}/?$");
+        Pattern pattern = Pattern.compile(NORMALIZE_URI_PATTERN);
         Matcher matcher = pattern.matcher(uri);
         String normalizeUri = matcher.replaceAll("");
 
@@ -52,6 +57,7 @@ public final class Routing {
 
     public static Controller setupController(String uri, Controller controller) {
         RequestParameters requestParameters = extractRequestParameters(uri);
+
         controller.setRequestParameters(requestParameters);
         controller.setRoutePath(normalizeUri(uri));
 
@@ -59,10 +65,9 @@ public final class Routing {
     }
 
     public static void setupContext(String uri, Controller controller) {
-        String path = normalizeUri(uri);
         controller = setupController(uri, controller);
 
-        HTTP_SERVER.createContext(path, controller);
+        HTTP_SERVER.createContext(normalizeUri(uri), controller);
     }
 
     public static void start() {

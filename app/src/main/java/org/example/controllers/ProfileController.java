@@ -5,11 +5,11 @@ import org.example.core.RequestParameters;
 import org.example.models.Profile;
 
 public class ProfileController extends Controller {
-    private static final String BASE_URI = "https://api.github.com/users/{name}";
-    private static final Class<?> classOft = Profile.class;
+    private static final String GITHUB_API_BASE_URI = "https://api.github.com/users/{name}";
+    private static final Class<?> MODEL_CLASS = Profile.class;
 
     public ProfileController() {
-        super(classOft, BASE_URI);
+        super(MODEL_CLASS, GITHUB_API_BASE_URI);
     }
 
     @Override
