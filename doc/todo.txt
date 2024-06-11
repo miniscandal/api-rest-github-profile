@@ -6,6 +6,13 @@ Requirements
 Refactoring code
 
 ★ Route.class: Configure environment variable for host and port
+★ Comparar parameters para validar que sea la cantidad correcta
+★ Controller.class, implementar constante de error cuando la pericion al servidor no coincida con alguna url del router.
+
+
+⚝ Fixed debug
+
+★ Arregla bug cuando replico la peticion al servidor, en el cliente http me sale este error: Empty reply from server
 
 
 ⚝
