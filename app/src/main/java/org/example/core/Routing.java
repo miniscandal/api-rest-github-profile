@@ -1,12 +1,11 @@
 package org.example.core;
 
 import java.io.IOException;
-
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import java.net.InetSocketAddress;
-
 import com.sun.net.httpserver.HttpServer;
 
 public final class Routing {
@@ -34,17 +33,18 @@ public final class Routing {
         return server;
     }
 
-    private static RequestParameters extractRequestParameters(String uri) {
-        RequestParameters requestParameters = new RequestParameters();
+    private static ArrayList<String> extractRequestParameters(String uri) {
         Pattern pattern = Pattern.compile(PARAMETER_PATTERN);
         Matcher matcher = pattern.matcher(uri);
 
+        ArrayList<String> listKeys = new ArrayList<String>();
+
         while (matcher.find()) {
             String key = matcher.group(1);
-            requestParameters.addParameters(key, null);
+            listKeys.add(key);
         }
 
-        return requestParameters;
+        return listKeys;
     }
 
     private static String normalizeUri(String uri) {
@@ -56,9 +56,9 @@ public final class Routing {
     }
 
     public static Controller setupController(String uri, Controller controller) {
-        RequestParameters requestParameters = extractRequestParameters(uri);
+        ArrayList<String> listKeys = extractRequestParameters(uri);
 
-        controller.setRequestParameters(requestParameters);
+        controller.setRequestParameterKeys(listKeys);
         controller.setRoutePath(normalizeUri(uri));
 
         return controller;

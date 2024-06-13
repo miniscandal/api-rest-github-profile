@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RequestParameters {
-    private Map<String, String> parameters = new HashMap<>();
+    private final Map<String, String> parameters = new HashMap<>();
 
     public Map<String, String> getParameters() {
         return parameters;
@@ -20,5 +20,9 @@ public class RequestParameters {
             String value = parameter.getValue();
             System.out.println("key: " + key + ", value: " + value);
         }
+    }
+
+    public int size() {
+        return parameters.size();
     }
 }
