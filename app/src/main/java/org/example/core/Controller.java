@@ -102,13 +102,13 @@ public abstract class Controller implements ConfigHttpHandler {
         boolean size = listParametersUriRequest.size() == listParametersUriContext.size();
 
         byte[] response = null;
-        if (!size) {
-            String message = "{\"message\": \"URI NOT FOUND\"}";
-            response = message.getBytes();
-        } else {
+        if (size) {
             setRequestParameterValues(listParametersUriRequest);
             setRequestParameter();
             response = manageResponse(requestParameters);
+        } else {
+            String message = "{\"message\": \"URI NOT FOUND\"}";
+            response = message.getBytes();
         }
         sendResponse(httpExchange, response);
     }

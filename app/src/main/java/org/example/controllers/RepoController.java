@@ -1,20 +1,21 @@
-// package org.example.controllers;
+package org.example.controllers;
 
-// import com.sun.net.httpserver.HttpExchange;
+import org.example.core.Controller;
+import org.example.core.RequestParameters;
+import org.example.models.Repo;
 
-// import org.example.core.Controller;
-// import org.example.models.Repo;
+public class RepoController extends Controller {
+    private static final String GITHUB_API_BASE_URI = "https://api.github.com/users/{name}/repos";
+    private static final Class<?> MODEL_CLASS = Repo.class;
 
-// public class RepoController extends Controller {
-// private String uri = "https://api.github.com/users/miniscandal/repos";
+    public RepoController() {
+        super(GITHUB_API_BASE_URI, MODEL_CLASS);
+    }
 
-// public RepoController() {
-// super(Repo.class);
-// }
+    @Override
+    public byte[] manageResponse(RequestParameters requestParameters) {
+        byte[] response = arrayObjectsResponse();
 
-// @Override
-// public void handle(HttpExchange exchange) {
-// byte[] response = arrayObjectsResponse(uri);
-// sendResponse(exchange, response);
-// }
-// }
+        return response;
+    }
+}
