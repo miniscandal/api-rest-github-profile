@@ -9,9 +9,10 @@ import java.util.Map;
 import java.net.URI;
 
 import com.sun.net.httpserver.Headers;
+import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpExchange;
 
-public abstract class Controller implements ConfigHttpHandler {
+public abstract class Controller implements HttpHandler {
     public ApiRequestExecuter apiRequestExecuter;
     private String githubApiBaseUri;
     public RequestParameters requestParameters = new RequestParameters();
