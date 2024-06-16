@@ -1,7 +1,7 @@
 package org.example.controllers;
 
 import org.example.core.Controller;
-import org.example.core.RequestParameters;
+import org.example.core.HttpRequestParameters;
 import org.example.models.Commit;
 
 public class CommitController extends Controller {
@@ -13,7 +13,7 @@ public class CommitController extends Controller {
     }
 
     @Override
-    public byte[] manageResponse(RequestParameters requestParameters) {
+    public byte[] processResponse(HttpRequestParameters requestParameters) {
         byte[] response = arrayObjectsResponse();
 
         return response;

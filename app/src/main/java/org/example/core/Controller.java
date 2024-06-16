@@ -14,41 +14,35 @@ import com.sun.net.httpserver.HttpExchange;
 
 public abstract class Controller implements HttpHandler {
     public ApiRequestExecuter apiRequestExecuter;
-    private String githubApiBaseUri;
-    public RequestParameters requestParameters = new RequestParameters();
-    private String routePath;
-    private ArrayList<String> listParametersUriContext = new ArrayList<String>();
-    private ArrayList<String> listParametersUriRequest = new ArrayList<String>();
+    private String apiBaseUri;
+    public HttpRequestParameters httpRequestParameters = new HttpRequestParameters();
+    private String endpointPath;
+    private ArrayList<String> uriContextParams = new ArrayList<String>();
+    private ArrayList<String> uriRequestParams = new ArrayList<String>();
 
-    public abstract byte[] manageResponse(RequestParameters requestParameters);
+    public abstract byte[] processResponse(HttpRequestParameters httpRequestParameters);
 
-    public Controller(String githubBaseUri, Class<?> modelClass) {
-        githubApiBaseUri = githubBaseUri;
+    public Controller(String apiBaseUri, Class<?> modelClass) {
+        this.apiBaseUri = apiBaseUri;
         apiRequestExecuter = new ApiRequestExecuter(modelClass);
     }
 
-    public void setRoutePath(String path) {
-        routePath = path;
+    public void setEndpointPath(String path) {
+        endpointPath = path;
     }
 
-    public void setRequestParameterKeys(ArrayList<String> arrayList) {
-        for (String string : arrayList) {
-            listParametersUriContext.add(string);
-        }
+    public void setUriContextParams(ArrayList<String> params) {
+        uriContextParams.addAll(params);
     }
 
-    public void setRequestParameterValues(ArrayList<String> arrayList) {
-        listParametersUriRequest.clear();
-        for (String string : arrayList) {
-            listParametersUriRequest.add(string);
-        }
+    public void setUriRequestParams(ArrayList<String> params) {
+        uriRequestParams.clear();
+        uriRequestParams.addAll(params);
     }
 
-    public void setRequestParameter() {
-        int index = 0;
-        for (String string : listParametersUriContext) {
-            requestParameters.addParameters(string, listParametersUriRequest.get(index));
-            index = index + 1;
+    public void mapRequestParameters() {
+        for (int i = 0; i < uriContextParams.size(); i++) {
+            httpRequestParameters.addParameters(uriContextParams.get(i), uriRequestParams.get(i));
         }
     }
 
@@ -62,22 +56,22 @@ public abstract class Controller implements HttpHandler {
         return apiRequestExecuter.arrayObjectResponse(uri);
     }
 
-    public ArrayList<String> getRequestParameterValues(HttpExchange httpExchange) {
-        ArrayList<String> listValues = new ArrayList<String>();
+    public ArrayList<String> extractRequestParams(HttpExchange httpExchange) {
+        ArrayList<String> values = new ArrayList<String>();
 
         URI uri = httpExchange.getRequestURI();
-        String path = uri.getPath().replace(routePath, "");
-        String wordsPath[] = path.split("/");
-        for (String string : wordsPath) {
-            listValues.add(string);
+        String path = uri.getPath().replace(endpointPath, "");
+        String pathSegments[] = path.split("/");
+        for (String segment : pathSegments) {
+            if (!segment.isEmpty()) {
+                values.add(segment);
+            }
         }
 
-        listValues.removeIf(s -> s.isEmpty());
-
-        return listValues;
+        return values;
     }
 
-    public void sendResponse(HttpExchange httpExchange, byte[] bytes) {
+    public void responseToClient(HttpExchange httpExchange, byte[] responseData) {
         Headers headers = httpExchange.getResponseHeaders();
 
         headers.set("Content-Type", "application/json; charset=utf-8");
@@ -89,8 +83,8 @@ public abstract class Controller implements HttpHandler {
                 return;
             }
             if (method.equalsIgnoreCase("GET")) {
-                httpExchange.sendResponseHeaders(200, bytes.length);
-                outputStream.write(bytes);
+                httpExchange.sendResponseHeaders(200, responseData.length);
+                outputStream.write(responseData);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -99,24 +93,24 @@ public abstract class Controller implements HttpHandler {
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        ArrayList<String> listParametersUriRequest = getRequestParameterValues(httpExchange);
-        boolean size = listParametersUriRequest.size() == listParametersUriContext.size();
+        ArrayList<String> requestParams = extractRequestParams(httpExchange);
 
         byte[] response = null;
-        if (size) {
-            setRequestParameterValues(listParametersUriRequest);
-            setRequestParameter();
-            response = manageResponse(requestParameters);
+        if (requestParams.size() == uriContextParams.size()) {
+            setUriRequestParams(requestParams);
+            mapRequestParameters();
+            response = processResponse(httpRequestParameters);
         } else {
             String message = "{\"message\": \"URI NOT FOUND\"}";
             response = message.getBytes();
         }
-        sendResponse(httpExchange, response);
+
+        responseToClient(httpExchange, response);
     }
 
     private String normalizeUri() {
-        String uri = githubApiBaseUri;
-        Map<String, String> parameters = requestParameters.getParameters();
+        String uri = apiBaseUri;
+        Map<String, String> parameters = httpRequestParameters.getParameters();
 
         for (Map.Entry<String, String> parameter : parameters.entrySet()) {
             String key = parameter.getKey();
