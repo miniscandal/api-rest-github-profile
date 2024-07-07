@@ -13,7 +13,7 @@ import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpExchange;
 
 public abstract class Controller implements HttpHandler {
-    public ApiRequestExecuter apiRequestExecuter;
+    public ApiRequestExecutor apiRequestExecuter;
     private String apiBaseUri;
     public HttpRequestParameters httpRequestParameters = new HttpRequestParameters();
     private String endpointPath;
@@ -24,7 +24,7 @@ public abstract class Controller implements HttpHandler {
 
     public Controller(String apiBaseUri, Class<?> modelClass) {
         this.apiBaseUri = apiBaseUri;
-        apiRequestExecuter = new ApiRequestExecuter(modelClass);
+        apiRequestExecuter = new ApiRequestExecutor(modelClass);
     }
 
     public void setEndpointPath(String path) {
@@ -47,13 +47,27 @@ public abstract class Controller implements HttpHandler {
     }
 
     public byte[] singleObjectResponse() {
-        String uri = normalizeUri();
-        return apiRequestExecuter.singleObjectResponse(uri);
+        byte[] response = null;
+
+        try {
+            response = apiRequestExecuter.executeSingleObjectResponse(normalizeUri());
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return response;
     }
 
     public byte[] arrayObjectsResponse() {
-        String uri = normalizeUri();
-        return apiRequestExecuter.arrayObjectResponse(uri);
+        byte[] response = null;
+
+        try {
+            response = apiRequestExecuter.executeArrayObjectResponse(normalizeUri());
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return response;
     }
 
     public ArrayList<String> extractRequestParams(HttpExchange httpExchange) {

@@ -17,60 +17,51 @@ import java.lang.reflect.Array;
 
 import com.google.gson.Gson;
 
-public class ApiRequestExecuter {
+public class ApiRequestExecutor {
     private static final HttpClient httpClient = HttpClient.newHttpClient();
-    private Class<?> classOft;
+    private Class<?> responseType;
 
-    public ApiRequestExecuter(Class<?> classOft) {
-        this.classOft = classOft;
+    public ApiRequestExecutor(Class<?> responseType) {
+        this.responseType = responseType;
     }
 
-    public HttpResponse<InputStream> sendRequest(String uri) {
+    public HttpResponse<InputStream> sendRequest(String uri) throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(uri))
                 .GET()
                 .build();
 
-        HttpResponse<InputStream> inputStream = null;
-
-        try {
-            inputStream = httpClient.send(request, HttpResponse.BodyHandlers.ofInputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        HttpResponse<InputStream> inputStream = httpClient.send(request, HttpResponse.BodyHandlers.ofInputStream());
 
         return inputStream;
     }
 
     public byte[] handleStatusCode(int statusCode) {
-        byte[] bytes = null;
-        String message = null;
-        Map<String, String> stringMap = new LinkedHashMap<>();
+        Map<String, String> errorResponse = new LinkedHashMap<>();
         Gson gson = new Gson();
+        String message = null;
 
         if (statusCode >= 400 && statusCode <= 499) {
             message = "Not Found";
-        }
-
-        if (statusCode >= 500 && statusCode <= 599) {
+        } else if (statusCode >= 500 && statusCode <= 599) {
             message = "Internal Server Error";
+        } else {
+            message = "Unknown Error";
         }
-        stringMap.put("message", message);
-        bytes = gson.toJson(stringMap).getBytes();
 
-        return bytes;
+        errorResponse.put("message", message);
+
+        return gson.toJson(errorResponse).getBytes();
     }
 
-    public byte[] handleSingleObjectResponse(HttpResponse<InputStream> response) {
+    public byte[] handleSingleObjectResponse(HttpResponse<InputStream> response) throws IOException {
         int statusCode = response.statusCode();
         Gson gson = new Gson();
         byte[] bytes = null;
 
         if (statusCode >= 200 && statusCode <= 299) {
             InputStreamReader reader = new InputStreamReader(response.body());
-            Object object = gson.fromJson(reader, classOft);
+            Object object = gson.fromJson(reader, responseType);
             bytes = gson.toJson(object).getBytes();
         } else {
             bytes = handleStatusCode(statusCode);
@@ -79,34 +70,31 @@ public class ApiRequestExecuter {
         return bytes;
     }
 
-    public byte[] handleArrayObjectResponse(HttpResponse<InputStream> response) {
+    public byte[] handleArrayObjectResponse(HttpResponse<InputStream> response) throws IOException {
         int statusCode = response.statusCode();
         Gson gson = new Gson();
-        byte[] bytes = null;
 
         if (statusCode >= 200 && statusCode <= 299) {
             InputStreamReader reader = new InputStreamReader(response.body());
-            Object objectArray = Array.newInstance(classOft, 0);
+            Object objectArray = Array.newInstance(responseType, 0);
             Object[] objects = (Object[]) gson.fromJson(reader, objectArray.getClass());
-            bytes = gson.toJson(objects).getBytes();
+
+            return gson.toJson(objects).getBytes();
         } else {
-            bytes = handleStatusCode(statusCode);
+
+            return handleStatusCode(statusCode);
         }
-
-        return bytes;
     }
 
-    public byte[] singleObjectResponse(String uri) {
+    public byte[] executeSingleObjectResponse(String uri) throws IOException, InterruptedException {
         HttpResponse<InputStream> response = sendRequest(uri);
-        byte[] bytes = handleSingleObjectResponse(response);
 
-        return bytes;
+        return handleSingleObjectResponse(response);
     }
 
-    public byte[] arrayObjectResponse(String uri) {
+    public byte[] executeArrayObjectResponse(String uri) throws IOException, InterruptedException {
         HttpResponse<InputStream> response = sendRequest(uri);
-        byte[] bytes = handleArrayObjectResponse(response);
 
-        return bytes;
+        return handleArrayObjectResponse(response);
     }
 }

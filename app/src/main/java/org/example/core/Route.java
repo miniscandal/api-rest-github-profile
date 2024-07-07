@@ -63,7 +63,7 @@ public final class Route {
         return controller;
     }
 
-    public static void registerEndPoint(String uri, Controller controller) {
+    public static void registerEndpoint(String uri, Controller controller) {
         controller = configureController(uri, controller);
 
         SERVER.createContext(cleanUri(uri), controller);

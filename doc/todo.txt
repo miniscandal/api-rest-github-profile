@@ -6,12 +6,7 @@ Requirements
 Refactoring code
 
 ★ Route.class: Configure environment variable for host and port
-★ Manejar errores http
-
-
-⚝ Fixed debug
-
-★
+★ Handle http errors
 
 
 ⚝
@@ -26,7 +21,7 @@ Unit test
 ★ All project
 
 
-⚝ Order
+⚝ Import Order
 
 Constant static public
 Privates variable

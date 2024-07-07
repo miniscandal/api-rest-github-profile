@@ -9,9 +9,13 @@ import org.example.core.Route;
 
 public class App {
     public static void main(String... args) {
-        Route.registerEndPoint("/profile/{name}", new ProfileController());
-        Route.registerEndPoint("/repos/{name}", new RepoController());
-        Route.registerEndPoint("/commits/{name}/{repo}", new CommitController());
+        Route.registerEndpoint("/profile/{name}", new ProfileController());
+        Route.registerEndpoint("/repos/{name}", new RepoController());
+        Route.registerEndpoint("/commits/{name}/{repo}", new CommitController());
         Route.launchServer();
+    }
+
+    public String descendants() {
+        return "descendants";
     }
 }
