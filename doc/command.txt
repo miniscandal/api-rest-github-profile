@@ -1,5 +1,11 @@
 PowerShell
 
-⚝ General cmdlet:
+General cmdlet cURL:
 
-ConvertFrom-Json | ConvertTo-Json
+⚝
+For convert response to Json format
+| ConvertFrom-Json | ConvertTo-Json
+
+⚝
+For get only headers
+-I
