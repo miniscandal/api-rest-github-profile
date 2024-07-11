@@ -7,6 +7,7 @@ Refactoring code
 
 ★ Route.class: Configure environment variable for host and port
 ★ Handle http errors
+★ Change ArrayList to Collections
 
 
 ⚝

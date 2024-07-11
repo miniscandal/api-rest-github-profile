@@ -1,4 +1,8 @@
-/*
+/* 
+ * Responsibility:
+ *
+ * Defines the Rest API endpoints with their respective controllers.
+ * Start the Rest API server.
  */
 package org.example;
 
