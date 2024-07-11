@@ -2,6 +2,7 @@ package org.example.core;
 
 import java.io.IOException;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,11 +34,11 @@ public final class Route {
         return server;
     }
 
-    private static ArrayList<String> parseUriParameters(String uri) {
+    private static List<String> parseUriParameters(String uri) {
         Pattern pattern = Pattern.compile(URI_PARAM_REGEX);
         Matcher matcher = pattern.matcher(uri);
 
-        ArrayList<String> params = new ArrayList<String>();
+        List<String> params = new ArrayList<String>();
 
         while (matcher.find()) {
             params.add(matcher.group(1));
@@ -55,7 +56,7 @@ public final class Route {
     }
 
     public static Controller configureController(String uri, Controller controller) {
-        ArrayList<String> uriParams = parseUriParameters(uri);
+        List<String> uriParams = parseUriParameters(uri);
 
         controller.setUriContextParams(uriParams);
         controller.setEndpointPath(cleanUri(uri));

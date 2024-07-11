@@ -3,6 +3,7 @@ package org.example.core;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -14,30 +15,29 @@ import com.sun.net.httpserver.HttpExchange;
 
 public abstract class Controller implements HttpHandler {
     public ApiRequestExecutor apiRequestExecuter;
-    private String apiBaseUri;
-    public HttpRequestParameters httpRequestParameters = new HttpRequestParameters();
+    private final String apiBaseUri;
     private String endpointPath;
-    private ArrayList<String> uriContextParams = new ArrayList<String>();
-    private ArrayList<String> uriRequestParams = new ArrayList<String>();
-
-    public abstract byte[] processResponse(HttpRequestParameters httpRequestParameters);
+    private List<String> uriContextParams = new ArrayList<String>();
+    private List<String> uriRequestParams = new ArrayList<String>();
+    public HttpRequestParameters httpRequestParameters = new HttpRequestParameters();
 
     public Controller(String apiBaseUri, Class<?> modelClass) {
         this.apiBaseUri = apiBaseUri;
-        apiRequestExecuter = new ApiRequestExecutor(modelClass);
+        this.apiRequestExecuter = new ApiRequestExecutor(modelClass);
     }
+
+    public abstract byte[] processResponse(HttpRequestParameters httpRequestParameters);
 
     public void setEndpointPath(String path) {
-        endpointPath = path;
+        this.endpointPath = path;
     }
 
-    public void setUriContextParams(ArrayList<String> params) {
-        uriContextParams.addAll(params);
+    public void setUriContextParams(List<String> params) {
+        this.uriContextParams = List.copyOf(params);
     }
 
-    public void setUriRequestParams(ArrayList<String> params) {
-        uriRequestParams.clear();
-        uriRequestParams.addAll(params);
+    public void setUriRequestParams(List<String> params) {
+        this.uriRequestParams = List.copyOf(params);
     }
 
     public void mapRequestParameters() {
@@ -70,12 +70,12 @@ public abstract class Controller implements HttpHandler {
         return response;
     }
 
-    public ArrayList<String> extractRequestParams(HttpExchange httpExchange) {
-        ArrayList<String> values = new ArrayList<String>();
-
+    public List<String> extractRequestParams(HttpExchange httpExchange) {
+        List<String> values = new ArrayList<String>();
         URI uri = httpExchange.getRequestURI();
         String path = uri.getPath().replace(endpointPath, "");
         String pathSegments[] = path.split("/");
+
         for (String segment : pathSegments) {
             if (!segment.isEmpty()) {
                 values.add(segment);
@@ -87,13 +87,12 @@ public abstract class Controller implements HttpHandler {
 
     public void responseToClient(HttpExchange httpExchange, byte[] responseData) {
         Headers headers = httpExchange.getResponseHeaders();
-
         headers.set("Content-Type", "application/json; charset=utf-8");
 
         try (OutputStream outputStream = httpExchange.getResponseBody()) {
             String method = httpExchange.getRequestMethod();
             if (method.equalsIgnoreCase("HEAD")) {
-                httpExchange.sendResponseHeaders(204, -1);
+                httpExchange.sendResponseHeaders(404, -1);
                 return;
             }
             if (method.equalsIgnoreCase("GET")) {
@@ -107,16 +106,15 @@ public abstract class Controller implements HttpHandler {
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        ArrayList<String> requestParams = extractRequestParams(httpExchange);
+        List<String> requestParams = extractRequestParams(httpExchange);
+        byte[] response;
 
-        byte[] response = null;
         if (requestParams.size() == uriContextParams.size()) {
             setUriRequestParams(requestParams);
             mapRequestParameters();
             response = processResponse(httpRequestParameters);
         } else {
-            String message = "{\"message\": \"URI NOT FOUND\"}";
-            response = message.getBytes();
+            response = "{\"message\": \"URI NOT FOUND\"}".getBytes();
         }
 
         responseToClient(httpExchange, response);
@@ -127,10 +125,7 @@ public abstract class Controller implements HttpHandler {
         Map<String, String> parameters = httpRequestParameters.getParameters();
 
         for (Map.Entry<String, String> parameter : parameters.entrySet()) {
-            String key = parameter.getKey();
-            String value = parameter.getValue();
-
-            uri = uri.replace("{" + key + "}", value);
+            uri = uri.replace("{" + parameter.getKey() + "}", parameter.getValue());
         }
 
         return uri;
