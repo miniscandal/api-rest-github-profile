@@ -1,0 +1,42 @@
+{
+    "access_point": {
+        "request": {
+            "host": "",
+            "port": 0,
+            "access_point": "",
+            "access_point_example": "",
+            "method": "GET | POST | UPDATE | DELETE",
+            "params": "For method GET and DELETE",
+            "headers": {
+                "authorization": "Bearer <token>",
+                "content_type": "application/json | text/plain"
+            },
+            "body": "For method POST and PUT",
+            "information": ""
+        },
+        "response": {
+            "content_type": "application/json | text/plain",
+            "charset": "utf-8",
+            "status_codes": {
+                "200": {
+                    "body_response_example": {},
+                    "information": ""
+                },
+                "404": {
+                    "body_response_example": {},
+                    "information": ""
+                },
+                "505": {
+                    "body_response_example": {},
+                    "information": ""
+                }
+            }
+        }
+    },
+    "status": "active | debugging | inactive | blocked",
+    "development": "Oscar Lira González",
+    "nickname": "miniscandal",
+    "email": "oscar01dev@gmail.com",
+    "created_at": "",
+    "updated_at": ""
+}

@@ -1,0 +1,45 @@
+{
+    "access_point": {
+        "request": {
+            "host": "http://127.0.0.1",
+            "port": 8080,
+            "access_point": "/profile/{name}",
+            "access_point_example": "profile/miniscandal",
+            "method": "GET",
+            "params": "",
+            "headers": {
+                "authorization": "",
+                "content_type": ""
+            },
+            "body": "for method POST and PUT",
+            "information": "Is for get the general information of a github profile."
+        },
+        "response": {
+            "content_type": "application/json",
+            "charset": "utf-8",
+            "status_codes": {
+                "200": {
+                    "body_response_example": {
+                        "avatar_url": "https://avatars.githubusercontent.com/u/130936985?v=4",
+                        "name": "Oscar González",
+                        "location": "México, Querétaro",
+                        "bio": "ΓÜ¥ Functional Analysis ΓÜ¥ Backend ΓÜ¥ Java\r\nΓÜ¥ Software Developer",
+                        "public_repos": 14,
+                        "public_gists": 0,
+                        "followers": 0,
+                        "following": 4,
+                        "created_at": "2023-04-16T22:03:21Z",
+                        "updated_at": "2024-07-08T12:56:55Z"
+                    },
+                    "information": "access point successful"
+                }
+            }
+        },
+        "status": "active",
+        "development": "Oscar Lira González",
+        "nickname": "miniscandal",
+        "email": "oscar01dev@gmail.com",
+        "created_at": "2024-07-11T14:00:00Z",
+        "updated_at": "2024-07-11T15:00:00Z"
+    }
+}
