@@ -1,34 +1,39 @@
-⚝
-Requirements
+⚝ Requirements
 
 
-⚝
-Refactoring code
+⚝ Refactoring code
 
-★ Route.class: Configure environment variable for host and port
-★ Handle http errors
-★ Change ArrayList to Collections
+★
+Route.class: Configure environment variable for host and port.
+
+★
+Handle http errors.
+
+★
+Change ArrayList to Collections.
+
+★
+Validar que los parametros de las uri o puntos de acceso coincidan con los
+parametros de la url definida en su controlador asignado por ejemplo el parametro name de 
+"/profile/{name}" debe estar definido en la url "https://api.github.com/users/{name}" declarada
+en el controlador asignado.
+
+★
+Validar las URIs definidas en los controladores.
+
+★
+Implementar this para hacer referencia a las propiedades de las clases.
 
 
-⚝
-Document code
 
-★ All project
+⚝ Documentation
 
-
-⚝
-Unit test
-
-★ All project
+★ 
+All project
 
 
-⚝ Import Order
 
-Constant static public
-Privates variable
-Abstract methods
-Constructor
-Public methods
-@Override
-Protected methods
-Private methods
+⚝ Unit test
+
+★
+All project

@@ -5,7 +5,7 @@ import org.example.core.HttpRequestParameters;
 import org.example.models.Repo;
 
 public class RepoController extends Controller {
-    private static final String GITHUB_API_BASE_URI = "https://api.github.com/users/{name}/repos";
+    private static final String GITHUB_API_BASE_URI = "/users/{name}/repos";
     private static final Class<?> MODEL_CLASS = Repo.class;
 
     public RepoController() {

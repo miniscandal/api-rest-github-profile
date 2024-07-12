@@ -1,3 +1,11 @@
+/*
+ * Responsibility:
+ * 
+ * 
+ * 
+ * 
+ */
+
 package org.example.core;
 
 import java.io.IOException;
@@ -17,13 +25,24 @@ public abstract class Controller implements HttpHandler {
     public ApiRequestExecutor apiRequestExecuter;
     private final String apiBaseUri;
     private String endpointPath;
+    private static final String GITHUB_API_BASE_URL = "https://api.github.com";
     private List<String> uriContextParams = new ArrayList<String>();
     private List<String> uriRequestParams = new ArrayList<String>();
     public HttpRequestParameters httpRequestParameters = new HttpRequestParameters();
 
     public Controller(String apiBaseUri, Class<?> modelClass) {
-        this.apiBaseUri = apiBaseUri;
+        isValidURL(GITHUB_API_BASE_URL);
+        this.apiBaseUri = GITHUB_API_BASE_URL + apiBaseUri;
         this.apiRequestExecuter = new ApiRequestExecutor(modelClass);
+    }
+
+    private void isValidURL(String url) {
+        try {
+            new URI(url).parseServerAuthority();
+        } catch (Exception e) {
+            String message = "\nInvalid URL: " + url + "\nmessage: " + e.getMessage();
+            throw new IllegalArgumentException(message);
+        }
     }
 
     public abstract byte[] processResponse(HttpRequestParameters httpRequestParameters);

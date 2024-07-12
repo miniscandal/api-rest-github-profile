@@ -64,7 +64,7 @@ public final class Route {
         return cleanUri;
     }
 
-    private static void verifyUri(String uri) {
+    public static void verifyUri(String uri) {
         boolean isValid = uri.matches(URI_VALID_REGEX);
 
         if (!isValid) {
