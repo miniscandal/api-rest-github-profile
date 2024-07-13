@@ -1,10 +1,20 @@
 ⚝ Import Order
 
-Constant static public
-Privates variable
-Abstract methods
-Constructor
-Public methods
-@Override
-Protected methods
-Private methods
+1 Constant static public
+2 Privates variable
+3 Abstract methods
+4 Constructor
+5 Public methods
+6 @Override
+7 Protected methods
+8 Private methods
+
+
+Constant static public: Correcto, las constantes estáticas públicas suelen ir al principio.
+Privates variable: Correcto, las variables privadas deben declararse antes de los métodos.
+Abstract methods: Si tu clase es abstracta, es lógico que los métodos abstractos vayan antes del constructor.
+Constructor: Correcto, el constructor debe ir después de las variables y métodos abstractos.
+Public methods: Correcto, los métodos públicos deben ir después del constructor.
+@Override: Correcto, los métodos sobrescritos deben ir después de los métodos públicos.
+Protected methods: Correcto, los métodos protegidos deben ir después de los métodos sobrescritos.
+Private methods: Correcto, los métodos privados deben ir al final.

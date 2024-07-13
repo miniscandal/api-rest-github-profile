@@ -16,7 +16,7 @@ public class App {
         Route.registerEndpoint("/profile/{name}", new ProfileController());
         Route.registerEndpoint("/repos/{name}", new RepoController());
         Route.registerEndpoint("/commits/{name}/{repo}", new CommitController());
-        Route.launchServer();
+        Route.startServer();
     }
 
     public String descendants() {

@@ -1,10 +1,11 @@
 package org.example.core;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import java.net.URI;
 
 public class AccessPoint {
     private static final String URI_PARAM_REGEX = "\\{(.*?)\\}";
