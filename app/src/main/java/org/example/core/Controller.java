@@ -1,152 +1,67 @@
-/*
- * Responsibility:
- * 
- * 
- * 
- * 
- */
-
 package org.example.core;
 
 import java.io.IOException;
-import java.io.OutputStream;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Map;
 
-import java.net.URI;
-
-import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpExchange;
 
 public abstract class Controller implements HttpHandler {
-    public ApiRequestExecutor apiRequestExecuter;
-    private final String apiBaseUri;
-    private String endpointPath;
-    private static final String GITHUB_API_BASE_URL = "https://api.github.com";
-    private List<String> uriContextParams = new ArrayList<String>();
-    private List<String> uriRequestParams = new ArrayList<String>();
-    public HttpRequestParameters httpRequestParameters = new HttpRequestParameters();
+    private String apiGitHubBasePath;
+    private String path;
+    private Class<?> model;
+    private List<String> parameters = new ArrayList<String>();
 
-    public Controller(String apiBaseUri, Class<?> modelClass) {
-        isValidURL(GITHUB_API_BASE_URL);
-        this.apiBaseUri = GITHUB_API_BASE_URL + apiBaseUri;
-        this.apiRequestExecuter = new ApiRequestExecutor(modelClass);
-    }
-
-    private void isValidURL(String url) {
-        try {
-            new URI(url).parseServerAuthority();
-        } catch (Exception e) {
-            String message = "\nInvalid URL: " + url + "\nmessage: " + e.getMessage();
-            throw new IllegalArgumentException(message);
+    public Controller() {
+        if (this instanceof ApiGitHub) {
+            ApiGitHub apiGitHub = (ApiGitHub) this;
+            this.apiGitHubBasePath = apiGitHub.getApiBasePath();
+            this.model = apiGitHub.getModel();
         }
     }
 
-    public abstract byte[] processResponse(HttpRequestParameters httpRequestParameters);
+    public abstract Response get(Request request, Response response);
 
-    public void setEndpointPath(String path) {
-        this.endpointPath = path;
+    public void setPath(String path) {
+        this.path = path;
     }
 
-    public void setUriContextParams(List<String> params) {
-        this.uriContextParams = List.copyOf(params);
+    public void setParameters(List<String> parameters) {
+        this.parameters = List.copyOf(parameters);
     }
 
-    public void setUriRequestParams(List<String> params) {
-        this.uriRequestParams = List.copyOf(params);
+    public List<String> getParameters() {
+        return parameters;
     }
 
-    public void mapRequestParameters() {
-        for (int i = 0; i < uriContextParams.size(); i++) {
-            httpRequestParameters.addParameters(uriContextParams.get(i), uriRequestParams.get(i));
-        }
+    public String getApiGitHubBasePath() {
+        return apiGitHubBasePath;
     }
 
-    public byte[] singleObjectResponse() {
-        byte[] response = null;
-
-        try {
-            response = apiRequestExecuter.executeSingleObjectResponse(normalizeUri());
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        return response;
-    }
-
-    public byte[] arrayObjectsResponse() {
-        byte[] response = null;
-
-        try {
-            response = apiRequestExecuter.executeArrayObjectResponse(normalizeUri());
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        return response;
-    }
-
-    public List<String> extractRequestParams(HttpExchange httpExchange) {
-        List<String> values = new ArrayList<String>();
-        URI uri = httpExchange.getRequestURI();
-        String path = uri.getPath().replace(endpointPath, "");
-        String pathSegments[] = path.split("/");
-
-        for (String segment : pathSegments) {
-            if (!segment.isEmpty()) {
-                values.add(segment);
-            }
-        }
-
-        return values;
-    }
-
-    public void responseToClient(HttpExchange httpExchange, byte[] responseData) {
-        Headers headers = httpExchange.getResponseHeaders();
-        headers.set("Content-Type", "application/json; charset=utf-8");
-
-        try (OutputStream outputStream = httpExchange.getResponseBody()) {
-            String method = httpExchange.getRequestMethod();
-            if (method.equalsIgnoreCase("HEAD")) {
-                httpExchange.sendResponseHeaders(404, -1);
-                return;
-            }
-            if (method.equalsIgnoreCase("GET")) {
-                httpExchange.sendResponseHeaders(200, responseData.length);
-                outputStream.write(responseData);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public Class<?> getModel() {
+        return model;
     }
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        List<String> requestParams = extractRequestParams(httpExchange);
-        byte[] response;
+        Response response = new Response(httpExchange);
+        Request request = new Request(httpExchange);
 
-        if (requestParams.size() == uriContextParams.size()) {
-            setUriRequestParams(requestParams);
-            mapRequestParameters();
-            response = processResponse(httpRequestParameters);
+        if (isRequestPathMatching(request.getPathContext())) {
+            get(request, response).send();
         } else {
-            response = "{\"message\": \"URI NOT FOUND\"}".getBytes();
+            sendNotFoundResponse(response);
         }
-
-        responseToClient(httpExchange, response);
     }
 
-    private String normalizeUri() {
-        String uri = apiBaseUri;
-        Map<String, String> parameters = httpRequestParameters.getParameters();
+    private boolean isRequestPathMatching(String pathContext) {
+        return pathContext.equalsIgnoreCase(this.path);
+    }
 
-        for (Map.Entry<String, String> parameter : parameters.entrySet()) {
-            uri = uri.replace("{" + parameter.getKey() + "}", parameter.getValue());
-        }
-
-        return uri;
+    private void sendNotFoundResponse(Response response) throws IOException {
+        response.setData("{\"message\": \"Document not found!\"}");
+        response.send();
     }
 }

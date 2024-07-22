@@ -1,6 +1,3 @@
-⚝ Requirements
-
-
 ⚝ Refactoring code
 
 ★
@@ -24,6 +21,8 @@ Validar las URIs definidas en los controladores.
 ★
 Implementar this para hacer referencia a las propiedades de las clases.
 
+★
+Cambiar el nombre le metodo processResponse por get, en los controladores y la clase Controller.
 
 
 ⚝ Documentation

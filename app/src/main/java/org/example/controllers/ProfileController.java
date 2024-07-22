@@ -1,20 +1,28 @@
 package org.example.controllers;
 
 import org.example.core.Controller;
-import org.example.core.HttpRequestParameters;
+import org.example.core.Request;
+import org.example.core.Response;
+
 import org.example.models.Profile;
 
-public class ProfileController extends Controller {
-    private static final String GITHUB_API_BASE_URI = "/users/{name}";
-    private static final Class<?> MODEL_CLASS = Profile.class;
+import org.example.core.ApiGitHub;
 
-    public ProfileController() {
-        super(GITHUB_API_BASE_URI, MODEL_CLASS);
+public class ProfileController extends Controller implements ApiGitHub {
+    private static final String API_BASE_PATH = "/users/{name}";
+    private static final Class<?> MODEL = Profile.class;
+
+    public String getApiBasePath() {
+        return API_BASE_PATH;
+    }
+
+    public Class<?> getModel() {
+        return MODEL;
     }
 
     @Override
-    public byte[] processResponse(HttpRequestParameters requestParameters) {
-        byte[] response = singleObjectResponse();
+    public Response get(Request request, Response response) {
+        response.setData("{\"message\": \"Igna!\"}");
 
         return response;
     }

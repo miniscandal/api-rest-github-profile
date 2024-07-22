@@ -13,10 +13,9 @@ import org.example.core.Route;
 
 public class App {
     public static void main(String... args) {
-        Route.registerEndpoint("/profile/{name}", new ProfileController());
-        Route.registerEndpoint("/repos/{name}", new RepoController());
-        Route.registerEndpoint("/commits/{name}/{repo}", new CommitController());
-        Route.startServer();
+        Route.get("/profile/{name}", new ProfileController());
+        Route.get("/repos/{name}", new RepoController());
+        Route.get("/commits/{name}/{repo}", new CommitController());
     }
 
     public String descendants() {
