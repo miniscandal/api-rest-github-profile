@@ -9,18 +9,8 @@ import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpExchange;
 
 public abstract class Controller implements HttpHandler {
-    private String apiGitHubBasePath;
     private String path;
-    private Class<?> model;
     private List<String> parameters = new ArrayList<String>();
-
-    public Controller() {
-        if (this instanceof ApiGitHub) {
-            ApiGitHub apiGitHub = (ApiGitHub) this;
-            this.apiGitHubBasePath = apiGitHub.getApiBasePath();
-            this.model = apiGitHub.getModel();
-        }
-    }
 
     public abstract Response get(Request request, Response response);
 
@@ -36,28 +26,16 @@ public abstract class Controller implements HttpHandler {
         return parameters;
     }
 
-    public String getApiGitHubBasePath() {
-        return apiGitHubBasePath;
-    }
-
-    public Class<?> getModel() {
-        return model;
-    }
-
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
         Response response = new Response(httpExchange);
         Request request = new Request(httpExchange);
 
-        if (isRequestPathMatching(request.getPathContext())) {
+        if (request.getPathContext().equalsIgnoreCase(this.path)) {
             get(request, response).send();
         } else {
             sendNotFoundResponse(response);
         }
-    }
-
-    private boolean isRequestPathMatching(String pathContext) {
-        return pathContext.equalsIgnoreCase(this.path);
     }
 
     private void sendNotFoundResponse(Response response) throws IOException {
