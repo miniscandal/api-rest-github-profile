@@ -4,6 +4,7 @@
             "host": "http://127.0.0.1",
             "port": 8080,
             "access_point": "/profile/{name}",
+            "access_point_api_github": "https://api.github.com/users/miniscandal",
             "access_point_example": "profile/miniscandal",
             "method": "GET",
             "params": "",

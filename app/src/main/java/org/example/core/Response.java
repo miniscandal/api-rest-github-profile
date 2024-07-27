@@ -15,6 +15,7 @@ public class Response {
     private OutputStream body;
     private byte[] data;
     private final String CONTENT_TYPE = "application/json; charset=utf-8";
+    private int statusCode;
 
     public Response(HttpExchange httpExchange) {
         this.httpExchange = httpExchange;
@@ -28,12 +29,21 @@ public class Response {
 
     public void setData(String json) {
         isJsonValid(json);
+        System.out.println(json);
         this.data = json.getBytes();
+    }
+
+    public int getStatusCode() {
+        return this.statusCode;
+    }
+
+    public void setStatusCode(int statusCode) {
+        this.statusCode = statusCode;
     }
 
     public void send() {
         try {
-            httpExchange.sendResponseHeaders(200, this.data.length);
+            httpExchange.sendResponseHeaders(this.statusCode, this.data.length);
             this.body.write(this.data);
         } catch (IOException e) {
             e.printStackTrace();

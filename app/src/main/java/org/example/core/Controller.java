@@ -40,6 +40,7 @@ public abstract class Controller implements HttpHandler {
 
     private void sendNotFoundResponse(Response response) throws IOException {
         response.setData("{\"message\": \"Document not found!\"}");
+        response.setStatusCode(HttpStatus.NOT_FOUND.getCode());
         response.send();
     }
 }

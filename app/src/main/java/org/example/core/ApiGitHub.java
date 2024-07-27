@@ -1,32 +1,34 @@
 package org.example.core;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ByteArrayInputStream;
+
+import java.net.http.HttpResponse;
+
 public class ApiGitHub {
-    private String basePath;
-    private Class<?> model;
-    private String data = "descendant";
+    private static final String BASE_URL = "https://api.github.com";
 
-    public ApiGitHub(String basePath, Class<?> model) {
-        this.basePath = basePath;
-        this.model = model;
-    }
+    public static ApiResponse getResponse(String path) {
+        String uri = BASE_URL + "/" + path;
+        InputStream body = null;
+        int statusCode = 0;
 
-    public String getBasePath() {
-        return this.basePath;
-    }
+        try {
+            HttpResponse<InputStream> response = RequestExecutor.sendRequest(uri);
+            if (response.statusCode() != HttpStatus.OK.getCode()) {
+                body = response.body();
+                statusCode = HttpStatus.OK.getCode();
+            } else {
+                statusCode = HttpStatus.INTERNAL_SERVER_ERROR.getCode();
+                String message = HttpStatus.INTERNAL_SERVER_ERROR.getMessage();
+                String data = "{\"message\": " + "\"" + message + "\"}";
+                body = new ByteArrayInputStream(data.getBytes());
+            }
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
 
-    public void setBasePath(String basePath) {
-        this.basePath = basePath;
-    }
-
-    public Class<?> getModel() {
-        return model;
-    }
-
-    public void setModel(Class<?> model) {
-        this.model = model;
-    }
-
-    public String getData() {
-        return this.data;
+        return new ApiResponse(statusCode, body);
     }
 }

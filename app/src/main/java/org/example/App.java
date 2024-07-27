@@ -2,7 +2,6 @@
  * Responsibility:
  *
  * Defines the Rest API endpoints with their respective controllers.
- * Start the Rest API server.
  */
 package org.example;
 
@@ -13,7 +12,7 @@ import org.example.core.Route;
 
 public class App {
     public static void main(String... args) {
-        Route.get("/profile/{name}", new ProfileController());
+        Route.get("/profiles/{name}", new ProfileController());
         Route.get("/repos/{name}", new RepoController());
         Route.get("/commits/{name}/{repo}", new CommitController());
     }

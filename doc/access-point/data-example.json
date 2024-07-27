@@ -4,6 +4,7 @@
             "host": "",
             "port": 0,
             "access_point": "",
+            "access_point_api_github": "",
             "access_point_example": "",
             "method": "GET | POST | UPDATE | DELETE",
             "params": "For method GET and DELETE",
