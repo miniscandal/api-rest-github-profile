@@ -8,7 +8,6 @@ public class RepoController extends Controller {
 
     @Override
     public Response get(Request request, Response response) {
-        response.setData("{\"message\": \"Mal!\"}");
         return response;
     }
 }

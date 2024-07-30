@@ -11,7 +11,6 @@ public class CommitController extends Controller {
     @Override
     public Response get(Request request, Response response) {
         ApiGitHub.getResponse(BASE_PATH);
-        response.setData("{\"message\": \"Commit!\"}");
 
         return response;
     }

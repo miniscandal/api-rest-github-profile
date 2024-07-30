@@ -3,34 +3,36 @@ package org.example.core;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import com.google.gson.JsonParser;
-import com.google.gson.JsonSyntaxException;
+import java.util.Map;
+import java.util.HashMap;
+
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.Headers;
 
+import com.google.gson.Gson;
+
 public class Response {
-    @SuppressWarnings("unused")
     private Headers headers;
     private HttpExchange httpExchange;
     private OutputStream body;
-    private byte[] data;
     private final String CONTENT_TYPE = "application/json; charset=utf-8";
     private int statusCode;
+    private Map<String, String> jsonMap = new HashMap<>();
 
     public Response(HttpExchange httpExchange) {
         this.httpExchange = httpExchange;
-        this.headers = configureHeaders(httpExchange);
+        this.headers = httpExchange.getResponseHeaders();
         this.body = httpExchange.getResponseBody();
+
+        setHeaders(CONTENT_TYPE);
     }
 
-    public byte[] getData() {
-        return this.data;
+    public void setError(HttpStatus httpStatus) {
+        this.jsonMap.put("error", httpStatus.getMessage());
     }
 
-    public void setData(String json) {
-        isJsonValid(json);
-        System.out.println(json);
-        this.data = json.getBytes();
+    public void setData(String key, String value) {
+        this.jsonMap.put(key, value);
     }
 
     public int getStatusCode() {
@@ -41,27 +43,18 @@ public class Response {
         this.statusCode = statusCode;
     }
 
+    public void setHeaders(String contentType) {
+        this.headers.set("Content-Type", contentType);
+    }
+
     public void send() {
+        Gson gson = new Gson();
+
         try {
-            httpExchange.sendResponseHeaders(this.statusCode, this.data.length);
-            this.body.write(this.data);
+            this.httpExchange.sendResponseHeaders(this.statusCode, gson.toJson(jsonMap).length());
+            this.body.write(gson.toJson(jsonMap).getBytes());
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Failed to send response", e);
         }
-    }
-
-    private void isJsonValid(String json) {
-        try {
-            JsonParser.parseString(json);
-        } catch (JsonSyntaxException e) {
-            throw new RuntimeException("Error json format" + e.getMessage());
-        }
-    }
-
-    private Headers configureHeaders(HttpExchange httpExchange) {
-        Headers headers = httpExchange.getResponseHeaders();
-        headers.set("Content-Type", CONTENT_TYPE);
-
-        return headers;
     }
 }
