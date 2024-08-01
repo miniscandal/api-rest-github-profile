@@ -39,8 +39,7 @@ public abstract class Controller implements HttpHandler {
     }
 
     private void sendNotFoundResponse(Response response) throws IOException {
-        response.setError(HttpStatus.NOT_FOUND);
-        response.setStatusCode(HttpStatus.NOT_FOUND.getCode());
+        response.setHttpStatus(HttpStatus.NOT_FOUND);
         response.send();
     }
 }

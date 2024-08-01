@@ -16,7 +16,9 @@ public class Response {
     private HttpExchange httpExchange;
     private OutputStream body;
     private final String CONTENT_TYPE = "application/json; charset=utf-8";
+    private String statusMessage;
     private int statusCode;
+    private HttpStatus httpStatus;
     private Map<String, String> jsonMap = new HashMap<>();
 
     public Response(HttpExchange httpExchange) {
@@ -27,20 +29,18 @@ public class Response {
         setHeaders(CONTENT_TYPE);
     }
 
-    public void setError(HttpStatus httpStatus) {
-        this.jsonMap.put("error", httpStatus.getMessage());
+    public void setMessage(String statusMessage) {
+        this.statusMessage = statusMessage;
     }
 
     public void setData(String key, String value) {
         this.jsonMap.put(key, value);
     }
 
-    public int getStatusCode() {
-        return this.statusCode;
-    }
-
-    public void setStatusCode(int statusCode) {
-        this.statusCode = statusCode;
+    public void setHttpStatus(HttpStatus httpStatus) {
+        this.httpStatus = httpStatus;
+        this.statusCode = this.httpStatus.getCode();
+        this.statusMessage = this.httpStatus.getMessage();
     }
 
     public void setHeaders(String contentType) {
@@ -49,6 +49,9 @@ public class Response {
 
     public void send() {
         Gson gson = new Gson();
+
+        this.jsonMap.put("message", this.statusMessage);
+        this.jsonMap.put("status", Integer.toString(this.statusCode));
 
         try {
             this.httpExchange.sendResponseHeaders(this.statusCode, gson.toJson(jsonMap).length());

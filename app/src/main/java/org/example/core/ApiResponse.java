@@ -3,16 +3,16 @@ package org.example.core;
 import java.io.InputStream;
 
 public class ApiResponse {
-    private int statusCode;
+    private HttpStatus httpStatus;
     private InputStream body;
 
-    public ApiResponse(int statusCode, InputStream body) {
-        this.statusCode = statusCode;
+    public ApiResponse(HttpStatus httpStatus, InputStream body) {
+        this.httpStatus = httpStatus;
         this.body = body;
     }
 
-    public int getStatusCode() {
-        return this.statusCode;
+    public HttpStatus geHttpStatus() {
+        return this.httpStatus;
     }
 
     public InputStream getBody() {
