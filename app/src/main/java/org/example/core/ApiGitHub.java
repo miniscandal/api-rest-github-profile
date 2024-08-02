@@ -21,7 +21,8 @@ public class ApiGitHub {
                 body = response.body();
             }
         } catch (IOException | InterruptedException e) {
-            httpStatus = HttpStatus.SERVICE_UNAVAILABLE;
+            System.out.println("no internet");
+            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
         }
 
         return new ApiResponse(httpStatus, body);

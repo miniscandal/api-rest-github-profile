@@ -6,7 +6,8 @@ import java.util.HashMap;
 public enum HttpStatus {
     OK(200, "OK"),
     NOT_FOUND(404, "Not Found"),
-    INTERNAL_API_GIT_HUB_SERVER_ERROR(500, "Internal Error With API GitHub"),
+    INTERNAL_SERVER_ERROR(500, "Internal Server Error"),
+    INTERNAL_API_GIT_HUB_SERVER_ERROR(502, "Internal APi GitHub Server Error"),
     SERVICE_UNAVAILABLE(503, "Service Unavailable Due To Configuration Issues");
 
     private final int code;

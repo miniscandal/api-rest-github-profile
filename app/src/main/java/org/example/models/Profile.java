@@ -1,6 +1,6 @@
 package org.example.models;
 
-public class Profile extends Model {
+public class Profile {
     private String avatar_url;
     private String name;
     private String company;

@@ -9,13 +9,12 @@ import org.example.core.ApiResponse;
 import org.example.models.Profile;
 
 public class ProfileController extends Controller {
-    private static final String BASE_PATH = "/users/miniscandal";
+    private static final String BASE_PATH = "/users/miniscandals";
 
     @Override
     public Response get(Request request, Response response) {
         ApiResponse apiResponse = ApiGitHub.getResponse(BASE_PATH);
 
-        response.setHttpStatus(apiResponse.geHttpStatus());
         response.setApiResponse(apiResponse, Profile.class);
 
         return response;

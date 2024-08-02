@@ -28,7 +28,7 @@ public class Response {
     private int statusCode;
     private HttpStatus httpStatus;
 
-    private byte[] apiResponse = null;
+    private byte[] apiResponseBytes = null;
 
     public Response(HttpExchange httpExchange) {
         this.httpExchange = httpExchange;
@@ -56,10 +56,13 @@ public class Response {
     }
 
     public void setApiResponse(ApiResponse apiResponse, Class<?> model) {
-        Gson gson = new Gson();
-        InputStreamReader reader = new InputStreamReader(apiResponse.getBody());
+        if (apiResponse.getBody() != null) {
+            Gson gson = new Gson();
+            InputStreamReader reader = new InputStreamReader(apiResponse.getBody());
+            this.apiResponseBytes = gson.toJson(gson.fromJson(reader, model)).getBytes();
+        }
 
-        this.apiResponse = gson.toJson(gson.fromJson(reader, model)).getBytes();
+        setHttpStatus(apiResponse.geHttpStatus());
     }
 
     public void send() {
@@ -69,11 +72,14 @@ public class Response {
         this.jsonMap.put("status", Integer.toString(this.statusCode));
 
         try {
-            byte[] jsonBytes = gson.toJson(jsonMap).getBytes(CHARSET_NAME);
+            byte[] jsonBytes;
 
-            if (this.apiResponse != null) {
-                jsonBytes = this.apiResponse;
+            if (this.apiResponseBytes == null || apiResponseBytes.length == 0) {
+                jsonBytes = gson.toJson(jsonMap).getBytes(CHARSET_NAME);
+            } else {
+                jsonBytes = this.apiResponseBytes;
             }
+
             this.httpExchange.sendResponseHeaders(this.statusCode, jsonBytes.length);
             this.body.write(jsonBytes);
         } catch (IOException e) {
