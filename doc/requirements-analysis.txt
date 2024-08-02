@@ -2,10 +2,4 @@ Entity
 
 ⚝ Concrete:
 
-⭒ ProfileController ⭒ RepoController ⭒ CommitController ⭒ Request ⭒ Response
-⭒ RequestApiGitHub ⭒ ResponseApiGitHub ⭒ Route ⭒
-
-
 ⚝ Abstract:
-
-⭒ Controller
