@@ -2,9 +2,13 @@ package org.example.core;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.InputStreamReader;
 
 import java.util.Map;
+
 import java.util.HashMap;
+
+import java.nio.charset.StandardCharsets;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.Headers;
@@ -12,20 +16,24 @@ import com.sun.net.httpserver.Headers;
 import com.google.gson.Gson;
 
 public class Response {
+    private static final String CONTENT_TYPE = "application/json; charset=utf-8";
+    private static final String CHARSET_NAME = StandardCharsets.UTF_8.name();
+
     private Headers headers;
     private HttpExchange httpExchange;
     private OutputStream body;
-    private final String CONTENT_TYPE = "application/json; charset=utf-8";
+    private Map<String, String> jsonMap = new HashMap<>();
+
     private String statusMessage;
     private int statusCode;
     private HttpStatus httpStatus;
-    private Map<String, String> jsonMap = new HashMap<>();
+
+    private byte[] apiResponse = null;
 
     public Response(HttpExchange httpExchange) {
         this.httpExchange = httpExchange;
         this.headers = httpExchange.getResponseHeaders();
         this.body = httpExchange.getResponseBody();
-
         setHeaders(CONTENT_TYPE);
     }
 
@@ -47,6 +55,13 @@ public class Response {
         this.headers.set("Content-Type", contentType);
     }
 
+    public void setApiResponse(ApiResponse apiResponse, Class<?> model) {
+        Gson gson = new Gson();
+        InputStreamReader reader = new InputStreamReader(apiResponse.getBody());
+
+        this.apiResponse = gson.toJson(gson.fromJson(reader, model)).getBytes();
+    }
+
     public void send() {
         Gson gson = new Gson();
 
@@ -54,8 +69,13 @@ public class Response {
         this.jsonMap.put("status", Integer.toString(this.statusCode));
 
         try {
-            this.httpExchange.sendResponseHeaders(this.statusCode, gson.toJson(jsonMap).length());
-            this.body.write(gson.toJson(jsonMap).getBytes());
+            byte[] jsonBytes = gson.toJson(jsonMap).getBytes(CHARSET_NAME);
+
+            if (this.apiResponse != null) {
+                jsonBytes = this.apiResponse;
+            }
+            this.httpExchange.sendResponseHeaders(this.statusCode, jsonBytes.length);
+            this.body.write(jsonBytes);
         } catch (IOException e) {
             throw new RuntimeException("Failed to send response", e);
         }
