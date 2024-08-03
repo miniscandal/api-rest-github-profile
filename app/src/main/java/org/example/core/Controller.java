@@ -1,16 +1,18 @@
 package org.example.core;
 
-import java.io.IOException;
-
 import java.util.List;
 import java.util.ArrayList;
+
+import java.io.IOException;
+
+import org.example.controllers.ApiGitHubInterface;
 
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpExchange;
 
 public abstract class Controller implements HttpHandler {
+    private List<String> parameters = new ArrayList<>();
     private String path;
-    private List<String> parameters = new ArrayList<String>();
 
     public abstract Response get(Request request, Response response);
 
@@ -18,12 +20,12 @@ public abstract class Controller implements HttpHandler {
         this.path = path;
     }
 
-    public void setParameters(List<String> parameters) {
-        this.parameters = List.copyOf(parameters);
+    public List<String> getParameters() {
+        return this.parameters;
     }
 
-    public List<String> getParameters() {
-        return parameters;
+    public void setParameters(List<String> parameters) {
+        this.parameters = List.copyOf(parameters);
     }
 
     @Override
@@ -31,15 +33,30 @@ public abstract class Controller implements HttpHandler {
         Response response = new Response(httpExchange);
         Request request = new Request(httpExchange);
 
+        if (this instanceof ApiGitHubInterface) {
+
+            ArgumentsContext argumentsContext;
+            argumentsContext = new ArgumentsContext(this.parameters, request.getPathArguments());
+
+            String basePath = ((ApiGitHubInterface) this).getBasePath();
+            Class<?> model = ((ApiGitHubInterface) this).getModel();
+
+            String pathWithArgument = argumentsContext.applyArgumentsInPath(basePath);
+
+            ApiResponse apiResponse = new ApiGitHub().getResponse(pathWithArgument);
+
+            response.setApiResponse(apiResponse, model);
+        }
+
         if (request.getPathContext().equalsIgnoreCase(this.path)) {
             get(request, response).send();
         } else {
-            sendNotFoundResponse(response);
+            sendNotFoundResponse(response, HttpStatus.NOT_FOUND);
         }
     }
 
-    private void sendNotFoundResponse(Response response) throws IOException {
-        response.setHttpStatus(HttpStatus.NOT_FOUND);
+    private void sendNotFoundResponse(Response response, HttpStatus httpStatus) throws IOException {
+        response.setHttpStatus(httpStatus);
         response.send();
     }
 }

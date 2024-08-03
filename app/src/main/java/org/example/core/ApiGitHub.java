@@ -8,7 +8,7 @@ import java.net.http.HttpResponse;
 public class ApiGitHub {
     private static final String BASE_URL = "https://api.github.com";
 
-    public static ApiResponse getResponse(String path) {
+    public ApiResponse getResponse(String path) {
         HttpResponse<InputStream> response;
         InputStream body = null;
         HttpStatus httpStatus;
