@@ -50,8 +50,11 @@ public abstract class Controller implements HttpHandler {
         response.send();
     }
 
-    private <T extends Model> void handleApiGitHubInterface(ApiGitHubInterface<T> apiGitHubInterface, Request request,
+    private <T extends Model> void handleApiGitHubInterface(
+            ApiGitHubInterface<T> apiGitHubInterface,
+            Request request,
             Response response) throws IOException {
+
         ArgumentsContext argumentsContext;
         argumentsContext = new ArgumentsContext(this.parameters, request.getPathArguments());
 
