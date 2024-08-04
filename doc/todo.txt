@@ -27,3 +27,8 @@ All project
 
 ★
 All project
+
+
+
+como implento el error al validar los argumentos
+    como implento el set http status en response cuando no se esta utilizando ApiGitHub

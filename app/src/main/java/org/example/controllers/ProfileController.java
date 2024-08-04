@@ -5,14 +5,14 @@ import org.example.core.Request;
 import org.example.core.Response;
 import org.example.models.Profile;
 
-public class ProfileController extends Controller implements ApiGitHubInterface {
+public class ProfileController extends Controller implements ApiGitHubInterface<Profile> {
     @Override
     public String getBasePath() {
         return "/users/{name}";
     }
 
     @Override
-    public Class<?> getModel() {
+    public Class<Profile> getModel() {
         return Profile.class;
     }
 

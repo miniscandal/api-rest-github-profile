@@ -68,8 +68,10 @@ public class Response {
     public void send() {
         Gson gson = new Gson();
 
-        this.jsonMap.put("message", this.statusMessage);
-        this.jsonMap.put("status", Integer.toString(this.statusCode));
+        if (this.jsonMap.isEmpty() || this.jsonMap.size() == 0) {
+            this.jsonMap.put("message", this.statusMessage);
+            this.jsonMap.put("status", Integer.toString(this.statusCode));
+        }
 
         try {
             byte[] jsonBytes;

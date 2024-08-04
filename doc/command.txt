@@ -11,3 +11,7 @@ For convert response to Json format
 
 For get only headers
 -I
+
+⚝
+
+netstat -aon

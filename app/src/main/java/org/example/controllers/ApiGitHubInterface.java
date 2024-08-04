@@ -1,7 +1,9 @@
 package org.example.controllers;
 
-public interface ApiGitHubInterface {
+import org.example.models.Model;
+
+public interface ApiGitHubInterface<T extends Model> {
     String getBasePath();
 
-    Class<?> getModel();
+    Class<T> getModel();
 }

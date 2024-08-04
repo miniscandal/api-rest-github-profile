@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.io.IOException;
 
 import org.example.controllers.ApiGitHubInterface;
+import org.example.models.Model;
 
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpExchange;
@@ -34,18 +35,7 @@ public abstract class Controller implements HttpHandler {
         Request request = new Request(httpExchange);
 
         if (this instanceof ApiGitHubInterface) {
-
-            ArgumentsContext argumentsContext;
-            argumentsContext = new ArgumentsContext(this.parameters, request.getPathArguments());
-
-            String basePath = ((ApiGitHubInterface) this).getBasePath();
-            Class<?> model = ((ApiGitHubInterface) this).getModel();
-
-            String pathWithArgument = argumentsContext.applyArgumentsInPath(basePath);
-
-            ApiResponse apiResponse = new ApiGitHub().getResponse(pathWithArgument);
-
-            response.setApiResponse(apiResponse, model);
+            handleApiGitHubInterface((ApiGitHubInterface<?>) this, request, response);
         }
 
         if (request.getPathContext().equalsIgnoreCase(this.path)) {
@@ -58,5 +48,20 @@ public abstract class Controller implements HttpHandler {
     private void sendNotFoundResponse(Response response, HttpStatus httpStatus) throws IOException {
         response.setHttpStatus(httpStatus);
         response.send();
+    }
+
+    private <T extends Model> void handleApiGitHubInterface(ApiGitHubInterface<T> apiGitHubInterface, Request request,
+            Response response) throws IOException {
+        ArgumentsContext argumentsContext;
+        argumentsContext = new ArgumentsContext(this.parameters, request.getPathArguments());
+
+        String basePath = apiGitHubInterface.getBasePath();
+        Class<?> model = apiGitHubInterface.getModel();
+
+        String pathWithArgument = argumentsContext.applyArgumentsInPath(basePath);
+
+        ApiResponse apiResponse = new ApiGitHub().getResponse(pathWithArgument);
+
+        response.setApiResponse(apiResponse, model);
     }
 }
