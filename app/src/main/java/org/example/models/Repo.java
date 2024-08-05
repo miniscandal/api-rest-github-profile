@@ -1,6 +1,6 @@
 package org.example.models;
 
-public class Repo {
+public class Repo extends Model {
     private String id;
     private String name;
     private String full_name;

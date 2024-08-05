@@ -34,37 +34,29 @@ public abstract class Controller implements HttpHandler {
         Response response = new Response(httpExchange);
         Request request = new Request(httpExchange);
 
-        if (this instanceof ApiGitHubInterface) {
-            handleApiGitHubInterface((ApiGitHubInterface<?>) this, request, response);
-        }
-
-        if (request.getPathContext().equalsIgnoreCase(this.path)) {
-            get(request, response).send();
-        } else {
-            sendNotFoundResponse(response, HttpStatus.NOT_FOUND);
-        }
-    }
-
-    private void sendNotFoundResponse(Response response, HttpStatus httpStatus) throws IOException {
-        response.setHttpStatus(httpStatus);
-        response.send();
-    }
-
-    private <T extends Model> void handleApiGitHubInterface(
-            ApiGitHubInterface<T> apiGitHubInterface,
-            Request request,
-            Response response) throws IOException {
-
         ArgumentsContext argumentsContext;
         argumentsContext = new ArgumentsContext(this.parameters, request.getPathArguments());
 
-        String basePath = apiGitHubInterface.getBasePath();
-        Class<?> model = apiGitHubInterface.getModel();
+        if (!request.getPathContext().equalsIgnoreCase(this.path)) {
+            sendNotFoundResponse(response);
+        }
 
-        String pathWithArgument = argumentsContext.applyArgumentsInPath(basePath);
+        if (this instanceof ApiGitHubInterface) {
+            handleApiGitHubService(response, argumentsContext);
+        }
 
-        ApiResponse apiResponse = new ApiGitHub().getResponse(pathWithArgument);
+        get(request, response).send();
+    }
 
-        response.setApiResponse(apiResponse, model);
+    private void sendNotFoundResponse(Response response) throws IOException {
+        response.setHttpStatus(HttpStatus.NOT_FOUND);
+        response.send();
+    }
+
+    public void handleApiGitHubService(Response response, ArgumentsContext argumentsContext) {
+
+        ApiGitHubInterface<?> apiGitHubInterface = (ApiGitHubInterface<?>) this;
+
+        Model.useApiGitHubService(apiGitHubInterface, argumentsContext, response);
     }
 }

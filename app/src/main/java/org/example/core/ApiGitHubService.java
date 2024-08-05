@@ -2,13 +2,12 @@ package org.example.core;
 
 import java.io.IOException;
 import java.io.InputStream;
-
 import java.net.http.HttpResponse;
 
-public class ApiGitHub {
+public class ApiGitHubService {
     private static final String BASE_URL = "https://api.github.com";
 
-    public ApiResponse getResponse(String path) {
+    public static ApiResponse get(String path) {
         HttpResponse<InputStream> response;
         InputStream body = null;
         HttpStatus httpStatus;

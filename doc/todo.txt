@@ -1,34 +1,7 @@
-⚝ Refactoring code
-
-★
-Route.class: Configure environment variable for host and port
-
-★
-Handle custom exceptions
-
-★
-Validar que los parametros de las uri o puntos de acceso coincidan con los
-parametros de la url definida en su controlador asignado por ejemplo el parametro name de 
-"/profile/{name}" debe estar definido en la url "https://api.github.com/users/{name}" declarada
-en el controlador asignado
-
-★
-Validar las URIs definidas en los controladores
-
-
-⚝ Documentation
-
-★ 
-All project
-
-
-
-⚝ Unit test
-
-★
-All project
-
-
-
-como implento el error al validar los argumentos
-    como implento el set http status en response cuando no se esta utilizando ApiGitHub
+⚝ Configure environment variable for host and port
+⚝ Inmplementar Handle custom exceptions
+⚝ Validar que los parametros de las uri o puntos de acceso coincidan con los parametros de la url definida en su controlador asignado
+⚝ Validar las URIs definidas en los controladores
+⚝ Documentar el codigo
+⚝ Implementar test unitario
+⚝ Validar cuando no se recivan arguemntos que se esperan

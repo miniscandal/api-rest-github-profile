@@ -2,7 +2,6 @@ package org.example.core;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.InputStreamReader;
 
 import java.util.Map;
 
@@ -28,7 +27,7 @@ public class Response {
     private int statusCode;
     private HttpStatus httpStatus;
 
-    private byte[] apiResponseBytes = null;
+    private byte[] data = null;
 
     public Response(HttpExchange httpExchange) {
         this.httpExchange = httpExchange;
@@ -55,14 +54,8 @@ public class Response {
         this.headers.set("Content-Type", contentType);
     }
 
-    public void setApiResponse(ApiResponse apiResponse, Class<?> model) {
-        if (apiResponse.getBody() != null) {
-            Gson gson = new Gson();
-            InputStreamReader reader = new InputStreamReader(apiResponse.getBody());
-            this.apiResponseBytes = gson.toJson(gson.fromJson(reader, model)).getBytes();
-        }
-
-        setHttpStatus(apiResponse.geHttpStatus());
+    public void setData(byte[] data) {
+        this.data = data;
     }
 
     public void send() {
@@ -76,10 +69,10 @@ public class Response {
         try {
             byte[] jsonBytes;
 
-            if (this.apiResponseBytes == null || apiResponseBytes.length == 0) {
+            if (this.data == null || this.data.length == 0) {
                 jsonBytes = gson.toJson(jsonMap).getBytes(CHARSET_NAME);
             } else {
-                jsonBytes = this.apiResponseBytes;
+                jsonBytes = this.data;
             }
 
             this.httpExchange.sendResponseHeaders(this.statusCode, jsonBytes.length);
