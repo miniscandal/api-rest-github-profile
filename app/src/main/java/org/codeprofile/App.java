@@ -3,12 +3,12 @@
  *
  * Defines the Rest API endpoints with their respective controllers.
  */
-package org.example;
+package org.codeprofile;
 
-import org.example.controllers.CommitController;
-import org.example.controllers.ProfileController;
-import org.example.controllers.RepoController;
-import org.example.core.Route;
+import org.codeprofile.core.Route;
+import org.codeprofile.apigithub.http.controllers.CommitController;
+import org.codeprofile.apigithub.http.controllers.ProfileController;
+import org.codeprofile.apigithub.http.controllers.RepoController;
 
 public class App {
     public static void main(String... args) {

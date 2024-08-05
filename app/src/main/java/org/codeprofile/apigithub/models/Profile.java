@@ -1,4 +1,6 @@
-package org.example.models;
+package org.codeprofile.apigithub.models;
+
+import org.codeprofile.apigithub.database.Model;
 
 public class Profile extends Model {
     private String avatar_url;

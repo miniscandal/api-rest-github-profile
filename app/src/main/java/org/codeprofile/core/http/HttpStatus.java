@@ -1,4 +1,4 @@
-package org.example.core;
+package org.codeprofile.core.http;
 
 import java.util.Map;
 import java.util.HashMap;

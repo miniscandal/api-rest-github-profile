@@ -1,12 +1,14 @@
-package org.example.core;
+package org.codeprofile.core.http;
 
 import java.util.List;
+
+import org.codeprofile.apigithub.database.Model;
+import org.codeprofile.apigithub.interfaces.ApiGitHubInterface;
+import org.codeprofile.shared.ArgumentsContext;
+
 import java.util.ArrayList;
 
 import java.io.IOException;
-
-import org.example.controllers.ApiGitHubInterface;
-import org.example.models.Model;
 
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpExchange;

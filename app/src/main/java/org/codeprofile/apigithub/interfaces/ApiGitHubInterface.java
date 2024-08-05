@@ -1,6 +1,6 @@
-package org.example.controllers;
+package org.codeprofile.apigithub.interfaces;
 
-import org.example.models.Model;
+import org.codeprofile.apigithub.database.Model;
 
 public interface ApiGitHubInterface<T extends Model> {
     String getBasePath();

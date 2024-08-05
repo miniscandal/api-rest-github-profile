@@ -1,8 +1,12 @@
-package org.example.core;
+package org.codeprofile.apigithub.database;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.http.HttpResponse;
+
+import org.codeprofile.core.http.HttpStatus;
+import org.codeprofile.core.http.RequestExecutor;
+import org.codeprofile.shared.ApiResponse;
 
 public class ApiGitHubService {
     private static final String BASE_URL = "https://api.github.com";

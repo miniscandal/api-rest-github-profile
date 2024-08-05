@@ -1,9 +1,9 @@
-package org.example.controllers;
+package org.codeprofile.apigithub.http.controllers;
 
-import org.example.core.Controller;
-import org.example.core.HttpStatus;
-import org.example.core.Request;
-import org.example.core.Response;
+import org.codeprofile.core.http.Controller;
+import org.codeprofile.core.http.HttpStatus;
+import org.codeprofile.core.http.Request;
+import org.codeprofile.core.http.Response;
 
 public class RepoController extends Controller {
     // private static final String BASE_PATH = "/repos/{name}/{repo}/commits";

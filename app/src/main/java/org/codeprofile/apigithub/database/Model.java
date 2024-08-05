@@ -1,12 +1,11 @@
-package org.example.models;
+package org.codeprofile.apigithub.database;
 
 import java.io.InputStreamReader;
 
-import org.example.controllers.ApiGitHubInterface;
-import org.example.core.ApiGitHubService;
-import org.example.core.ApiResponse;
-import org.example.core.ArgumentsContext;
-import org.example.core.Response;
+import org.codeprofile.apigithub.interfaces.ApiGitHubInterface;
+import org.codeprofile.core.http.Response;
+import org.codeprofile.shared.ApiResponse;
+import org.codeprofile.shared.ArgumentsContext;
 
 import com.google.gson.Gson;
 
