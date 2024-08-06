@@ -1,8 +1,8 @@
-package org.codeprofile.shared;
+package org.codeprofile.shared.http;
 
 import java.io.InputStream;
 
-import org.codeprofile.core.http.HttpStatus;
+import org.codeprofile.shared.enums.HttpStatus;
 
 public class ApiResponse {
     private HttpStatus httpStatus;

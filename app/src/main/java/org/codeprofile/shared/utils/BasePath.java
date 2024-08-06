@@ -1,4 +1,4 @@
-package org.codeprofile.shared;
+package org.codeprofile.shared.utils;
 
 import java.util.List;
 import java.util.ArrayList;

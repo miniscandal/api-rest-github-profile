@@ -1,10 +1,11 @@
-package org.codeprofile.core.http;
+package org.codeprofile.shared.http;
 
 import java.util.List;
 
 import org.codeprofile.apigithub.database.Model;
 import org.codeprofile.apigithub.interfaces.ApiGitHubInterface;
-import org.codeprofile.shared.ArgumentsContext;
+import org.codeprofile.shared.enums.HttpStatus;
+import org.codeprofile.shared.utils.ArgumentsContext;
 
 import java.util.ArrayList;
 

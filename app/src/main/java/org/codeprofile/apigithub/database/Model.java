@@ -3,9 +3,9 @@ package org.codeprofile.apigithub.database;
 import java.io.InputStreamReader;
 
 import org.codeprofile.apigithub.interfaces.ApiGitHubInterface;
-import org.codeprofile.core.http.Response;
-import org.codeprofile.shared.ApiResponse;
-import org.codeprofile.shared.ArgumentsContext;
+import org.codeprofile.shared.http.ApiResponse;
+import org.codeprofile.shared.http.Response;
+import org.codeprofile.shared.utils.ArgumentsContext;
 
 import com.google.gson.Gson;
 

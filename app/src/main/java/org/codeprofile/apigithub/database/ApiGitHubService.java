@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.http.HttpResponse;
 
-import org.codeprofile.core.http.HttpStatus;
-import org.codeprofile.core.http.RequestExecutor;
-import org.codeprofile.shared.ApiResponse;
+import org.codeprofile.shared.enums.HttpStatus;
+import org.codeprofile.shared.http.ApiResponse;
+import org.codeprofile.shared.http.RequestExecutor;
 
 public class ApiGitHubService {
     private static final String BASE_URL = "https://api.github.com";

@@ -1,4 +1,4 @@
-package org.codeprofile.core.http;
+package org.codeprofile.shared.http;
 
 import java.util.List;
 import java.util.ArrayList;

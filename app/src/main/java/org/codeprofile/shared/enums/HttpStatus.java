@@ -1,4 +1,4 @@
-package org.codeprofile.core.http;
+package org.codeprofile.shared.enums;
 
 import java.util.Map;
 import java.util.HashMap;

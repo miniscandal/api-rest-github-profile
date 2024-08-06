@@ -1,7 +1,7 @@
 package org.codeprofile.core;
 
-import org.codeprofile.core.http.Controller;
-import org.codeprofile.shared.BasePath;
+import org.codeprofile.shared.http.Controller;
+import org.codeprofile.shared.utils.BasePath;
 
 import com.sun.net.httpserver.HttpServer;
 
