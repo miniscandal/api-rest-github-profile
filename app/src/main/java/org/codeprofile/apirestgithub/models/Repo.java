@@ -1,6 +1,6 @@
-package org.codeprofile.apigithub.models;
+package org.codeprofile.apirestgithub.models;
 
-import org.codeprofile.apigithub.database.Model;
+import org.codeprofile.apirestgithub.database.Model;
 
 public class Repo extends Model {
     private String id;

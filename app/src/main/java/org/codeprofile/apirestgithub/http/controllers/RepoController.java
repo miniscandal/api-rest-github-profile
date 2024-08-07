@@ -1,4 +1,4 @@
-package org.codeprofile.apigithub.http.controllers;
+package org.codeprofile.apirestgithub.http.controllers;
 
 import org.codeprofile.shared.enums.HttpStatus;
 import org.codeprofile.shared.http.Controller;

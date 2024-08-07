@@ -1,4 +1,4 @@
-package org.codeprofile.apigithub.database;
+package org.codeprofile.apirestgithub.database;
 
 import java.io.IOException;
 import java.io.InputStream;

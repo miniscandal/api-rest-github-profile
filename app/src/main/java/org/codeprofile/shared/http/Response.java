@@ -5,6 +5,7 @@ import java.io.OutputStream;
 
 import java.util.Map;
 
+import org.codeprofile.apirestinternal.database.Model;
 import org.codeprofile.shared.enums.HttpStatus;
 
 import java.util.HashMap;
@@ -58,6 +59,13 @@ public class Response {
 
     public void setData(byte[] data) {
         this.data = data;
+    }
+
+    public void setData(Model model) {
+        Gson gson = new Gson();
+        String json = gson.toJson(model);
+
+        this.data = json.getBytes();
     }
 
     public void send() {

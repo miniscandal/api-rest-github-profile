@@ -1,8 +1,8 @@
-package org.codeprofile.apigithub.database;
+package org.codeprofile.apirestgithub.database;
 
 import java.io.InputStreamReader;
 
-import org.codeprofile.apigithub.interfaces.ApiGitHubInterface;
+import org.codeprofile.apirestgithub.interfaces.ApiGitHubInterface;
 import org.codeprofile.shared.http.ApiResponse;
 import org.codeprofile.shared.http.Response;
 import org.codeprofile.shared.utils.ArgumentsContext;

@@ -1,10 +1,10 @@
-package org.codeprofile.apigithub.http.controllers;
+package org.codeprofile.apirestgithub.http.controllers;
 
+import org.codeprofile.apirestgithub.interfaces.ApiGitHubInterface;
+import org.codeprofile.apirestgithub.models.Profile;
 import org.codeprofile.shared.http.Controller;
 import org.codeprofile.shared.http.Request;
 import org.codeprofile.shared.http.Response;
-import org.codeprofile.apigithub.interfaces.ApiGitHubInterface;
-import org.codeprofile.apigithub.models.Profile;
 
 public class ProfileController extends Controller implements ApiGitHubInterface<Profile> {
     @Override

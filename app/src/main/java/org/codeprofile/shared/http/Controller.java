@@ -2,8 +2,8 @@ package org.codeprofile.shared.http;
 
 import java.util.List;
 
-import org.codeprofile.apigithub.database.Model;
-import org.codeprofile.apigithub.interfaces.ApiGitHubInterface;
+import org.codeprofile.apirestgithub.database.Model;
+import org.codeprofile.apirestgithub.interfaces.ApiGitHubInterface;
 import org.codeprofile.shared.enums.HttpStatus;
 import org.codeprofile.shared.utils.ArgumentsContext;
 
@@ -57,9 +57,7 @@ public abstract class Controller implements HttpHandler {
     }
 
     public void handleApiGitHubService(Response response, ArgumentsContext argumentsContext) {
-
         ApiGitHubInterface<?> apiGitHubInterface = (ApiGitHubInterface<?>) this;
-
         Model.useApiGitHubService(apiGitHubInterface, argumentsContext, response);
     }
 }
