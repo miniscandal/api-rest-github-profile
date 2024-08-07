@@ -45,7 +45,7 @@ public abstract class Controller implements HttpHandler {
         }
 
         if (this instanceof ApiGitHubInterface) {
-            handleApiGitHubService(response, argumentsContext);
+            response = handleApiGitHubService(response, argumentsContext);
         }
 
         get(request, response).send();
@@ -56,8 +56,10 @@ public abstract class Controller implements HttpHandler {
         response.send();
     }
 
-    public void handleApiGitHubService(Response response, ArgumentsContext argumentsContext) {
+    public Response handleApiGitHubService(Response response, ArgumentsContext argumentsContext) {
         ApiGitHubInterface<?> apiGitHubInterface = (ApiGitHubInterface<?>) this;
-        Model.useApiGitHubService(apiGitHubInterface, argumentsContext, response);
+        response = Model.useApiGitHubService(apiGitHubInterface, argumentsContext, response);
+
+        return response;
     }
 }
