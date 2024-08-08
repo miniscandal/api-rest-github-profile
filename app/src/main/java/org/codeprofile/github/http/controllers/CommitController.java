@@ -1,4 +1,4 @@
-package org.codeprofile.apirestgithub.http.controllers;
+package org.codeprofile.github.http.controllers;
 
 import org.codeprofile.shared.http.Controller;
 import org.codeprofile.shared.http.Request;

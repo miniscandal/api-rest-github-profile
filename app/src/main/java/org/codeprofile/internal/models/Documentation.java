@@ -1,9 +1,9 @@
-package org.codeprofile.apirestinternal.models;
+package org.codeprofile.internal.models;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.codeprofile.apirestinternal.database.Model;
+import org.codeprofile.internal.database.Model;
 
 public class Documentation extends Model {
     private String version;

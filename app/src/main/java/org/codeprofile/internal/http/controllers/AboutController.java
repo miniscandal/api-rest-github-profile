@@ -1,6 +1,6 @@
-package org.codeprofile.apirestinternal.http.controllers;
+package org.codeprofile.internal.http.controllers;
 
-import org.codeprofile.apirestinternal.models.About;
+import org.codeprofile.internal.models.About;
 import org.codeprofile.shared.enums.HttpStatus;
 import org.codeprofile.shared.http.Controller;
 import org.codeprofile.shared.http.Request;

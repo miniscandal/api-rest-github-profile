@@ -1,6 +1,6 @@
-package org.codeprofile.apirestgithub.models;
+package org.codeprofile.github.models;
 
-import org.codeprofile.apirestgithub.database.Model;
+import org.codeprofile.github.database.Model;
 
 public class Profile extends Model {
     private String avatar_url;

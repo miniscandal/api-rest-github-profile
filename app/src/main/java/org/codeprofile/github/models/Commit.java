@@ -1,4 +1,4 @@
-package org.codeprofile.apirestgithub.models;
+package org.codeprofile.github.models;
 
 public class Commit {
     private String sha;

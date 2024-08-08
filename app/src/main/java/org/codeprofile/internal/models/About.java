@@ -1,6 +1,6 @@
-package org.codeprofile.apirestinternal.models;
+package org.codeprofile.internal.models;
 
-import org.codeprofile.apirestinternal.database.Model;
+import org.codeprofile.internal.database.Model;
 
 public class About extends Model {
     private String name;

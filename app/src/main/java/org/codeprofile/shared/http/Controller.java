@@ -3,22 +3,37 @@ package org.codeprofile.shared.http;
 import java.util.List;
 
 import org.codeprofile.shared.enums.HttpStatus;
-import org.codeprofile.shared.interfaces.Service;
+import org.codeprofile.shared.contracts.Service;
 
 import java.io.IOException;
 
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpExchange;
 
+/*
+ * Class Properties
+ * 
+ * parameters: son los parametros esperados que se definen en el contexto del controlador concreto
+ * path: es el contexto sin parametros relacionado con el controlador concreto
+ * example: "/document/{id}" donde /document es el contexto y {id} es el parametro que se espera
+ * 
+ */
+
 public abstract class Controller implements HttpHandler {
-    private List<String> parameters = List.of();
-    private String path;
     private Service service;
+    private List<String> parameters = List.of();
+
+    private String path;
 
     public abstract Response get(Request request, Response response);
 
+    public String getPath() {
+        return path;
+    }
+
     public void setPath(String path) {
         this.path = path;
+
     }
 
     public List<String> getParameters() {
@@ -27,6 +42,10 @@ public abstract class Controller implements HttpHandler {
 
     public void setParameters(List<String> parameters) {
         this.parameters = List.copyOf(parameters);
+    }
+
+    public Service getService() {
+        return this.service;
     }
 
     public void setService(Service service) {
@@ -38,13 +57,14 @@ public abstract class Controller implements HttpHandler {
         Response response = new Response(httpExchange);
         Request request = new Request(httpExchange);
 
-        this.service.getAnime("relife");
         if (!request.getPathContext().equalsIgnoreCase(this.path)) {
             response.setHttpStatus(HttpStatus.NOT_FOUND_CONTEXT);
             response.send();
 
             return;
         }
+
+        response = this.service.execute(request, response);
 
         get(request, response).send();
     }

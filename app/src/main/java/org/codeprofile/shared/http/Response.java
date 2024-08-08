@@ -5,7 +5,7 @@ import java.io.OutputStream;
 
 import java.util.Map;
 
-import org.codeprofile.apirestinternal.database.Model;
+import org.codeprofile.internal.database.Model;
 import org.codeprofile.shared.enums.HttpStatus;
 
 import java.util.HashMap;

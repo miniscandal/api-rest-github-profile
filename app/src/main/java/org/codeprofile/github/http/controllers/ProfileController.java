@@ -1,7 +1,7 @@
-package org.codeprofile.apirestgithub.http.controllers;
+package org.codeprofile.github.http.controllers;
 
-import org.codeprofile.apirestgithub.interfaces.ApiGitHub;
-import org.codeprofile.apirestgithub.models.Profile;
+import org.codeprofile.github.contracts.ApiGitHub;
+import org.codeprofile.github.models.Profile;
 import org.codeprofile.shared.http.Controller;
 import org.codeprofile.shared.http.Request;
 import org.codeprofile.shared.http.Response;

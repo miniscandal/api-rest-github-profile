@@ -1,12 +1,12 @@
 package org.codeprofile.shared.http;
 
-import org.codeprofile.shared.interfaces.ServiceStrategy;
+import org.codeprofile.github.contracts.ApiGitHub;
 
 public class HandleService {
-    public static Response execute(Controller controller, Request request, Response response) {
-        if (controller instanceof ServiceStrategy) {
+    public static Controller execute(Controller controller) {
+        if (controller instanceof ApiGitHub) {
         }
 
-        return response;
+        return controller;
     }
 }

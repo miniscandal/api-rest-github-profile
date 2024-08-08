@@ -1,4 +1,4 @@
-package org.codeprofile.apirestinternal.models;
+package org.codeprofile.internal.models;
 
 public class Endpoint {
     private String path;
