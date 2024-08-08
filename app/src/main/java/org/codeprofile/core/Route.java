@@ -1,26 +1,40 @@
 package org.codeprofile.core;
 
 import org.codeprofile.shared.http.Controller;
+import org.codeprofile.shared.interfaces.Service;
+import org.codeprofile.shared.interfaces.ServiceStrategy;
 import org.codeprofile.shared.utils.BasePath;
 
 import com.sun.net.httpserver.HttpServer;
 
 public final class Route {
-    private static final HttpServer httpServer = Server.getHttpServer();
+    private static final HttpServer httpServer;
 
     static {
+        httpServer = Server.getHttpServer();
         Server.start();
     }
 
     public static void get(String path, Controller controller) {
+        if (path == null || controller == null) {
+            throw new IllegalArgumentException("Path and controller cannot be null");
+        }
         BasePath basePath = new BasePath(path);
-        httpServer.createContext(basePath.getPath(), configureController(basePath, controller));
+        setControllerProperties(basePath, controller);
+        setConfigureService(controller);
+
+        httpServer.createContext(basePath.getPath(), controller);
     }
 
-    private static Controller configureController(BasePath basePath, Controller controller) {
+    private static void setControllerProperties(BasePath basePath, Controller controller) {
         controller.setPath(basePath.getPath());
         controller.setParameters(basePath.getParameters());
+    }
 
-        return controller;
+    private static void setConfigureService(Controller controller) {
+        if (controller instanceof ServiceStrategy) {
+            Service service = ((ServiceStrategy) controller).getService();
+            controller.setService(service);
+        }
     }
 }
