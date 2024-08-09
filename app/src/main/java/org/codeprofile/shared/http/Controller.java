@@ -21,7 +21,7 @@ import com.sun.net.httpserver.HttpExchange;
 
 public abstract class Controller implements HttpHandler {
     private Service service;
-    private List<String> parameters = List.of();
+    private List<String> parameters;
 
     private String path;
 
@@ -57,15 +57,23 @@ public abstract class Controller implements HttpHandler {
         Response response = new Response(httpExchange);
         Request request = new Request(httpExchange);
 
-        if (!request.getPathContext().equalsIgnoreCase(this.path)) {
+        if (!request.getPath().startsWith(this.path + "/")) {
             response.setHttpStatus(HttpStatus.NOT_FOUND_CONTEXT);
             response.send();
 
             return;
         }
 
-        response = this.service.execute(request, response);
+        String[] arguments = extractArguments(request.getPath());
+
+        request.setArguments(arguments);
+
+        this.service.execute();
 
         get(request, response).send();
+    }
+
+    public String[] extractArguments(String path) {
+        return path.replace(this.path + "/", "").split("/");
     }
 }

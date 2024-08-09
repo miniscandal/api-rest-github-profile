@@ -21,11 +21,6 @@ public final class Route {
         controller.setPath(basePath.getPath());
         controller.setParameters(basePath.getParameters());
 
-        System.out.println(basePath.getPath());
-        for (String element : basePath.getParameters()) {
-            System.out.println(element);
-        }
-
         if (controller instanceof ServiceStrategy) {
             Service service = ((ServiceStrategy) controller).getService();
             controller.setService(service);

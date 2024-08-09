@@ -28,15 +28,15 @@ public class Response {
 
     private String statusMessage;
     private int statusCode;
-    private HttpStatus httpStatus;
-
     private byte[] data = null;
+
+    private HttpStatus httpStatus;
 
     public Response(HttpExchange httpExchange) {
         this.httpExchange = httpExchange;
         this.headers = httpExchange.getResponseHeaders();
+        this.headers.set("Content-Type", CONTENT_TYPE);
         this.body = httpExchange.getResponseBody();
-        setHeaders(CONTENT_TYPE);
     }
 
     public void setMessage(String statusMessage) {
@@ -51,10 +51,6 @@ public class Response {
         this.httpStatus = httpStatus;
         this.statusCode = this.httpStatus.getCode();
         this.statusMessage = this.httpStatus.getMessage();
-    }
-
-    public void setHeaders(String contentType) {
-        this.headers.set("Content-Type", contentType);
     }
 
     public void setData(byte[] data) {

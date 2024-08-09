@@ -10,15 +10,13 @@ import org.codeprofile.shared.enums.HttpStatus;
 import org.codeprofile.shared.http.ApiResponse;
 import org.codeprofile.shared.http.Request;
 import org.codeprofile.shared.http.RequestExecutor;
-import org.codeprofile.shared.http.Response;
 
 public class ApiClient implements Service {
     private static final String BASE_URL = "https://api.github.com";
 
     @Override
-    public Response execute(Request request, Response response) {
+    public void execute() {
 
-        return response;
     }
 
     public ApiResponse getResponse(Request request) {
