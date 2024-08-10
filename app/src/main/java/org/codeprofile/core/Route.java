@@ -1,7 +1,6 @@
 package org.codeprofile.core;
 
 import org.codeprofile.shared.http.Controller;
-import org.codeprofile.shared.contracts.Service;
 import org.codeprofile.shared.strategies.ServiceStrategy;
 import org.codeprofile.shared.utils.BasePath;
 
@@ -18,14 +17,17 @@ public final class Route {
     public static void get(String path, Controller controller) {
         BasePath basePath = new BasePath(path);
 
+        configureController(basePath, controller);
+
+        httpServer.createContext(basePath.getPath(), controller);
+    }
+
+    public static void configureController(BasePath basePath, Controller controller) {
         controller.setPath(basePath.getPath());
         controller.setParameters(basePath.getParameters());
 
         if (controller instanceof ServiceStrategy) {
-            Service service = ((ServiceStrategy) controller).getService();
-            controller.setService(service);
+            controller.setService(((ServiceStrategy) controller).newService());
         }
-
-        httpServer.createContext(basePath.getPath(), controller);
     }
 }

@@ -1,12 +1,9 @@
 package org.codeprofile.shared.http;
 
-import org.codeprofile.github.contracts.ApiGitHub;
+import org.codeprofile.shared.contracts.Service;
 
 public class HandleService {
-    public static Controller execute(Controller controller) {
-        if (controller instanceof ApiGitHub) {
-        }
 
-        return controller;
+    public HandleService(Service service) {
     }
 }

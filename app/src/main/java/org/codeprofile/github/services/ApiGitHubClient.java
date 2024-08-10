@@ -5,18 +5,30 @@ import java.io.InputStream;
 
 import java.net.http.HttpResponse;
 
+import org.codeprofile.github.database.Model;
 import org.codeprofile.shared.contracts.Service;
 import org.codeprofile.shared.enums.HttpStatus;
 import org.codeprofile.shared.http.ApiResponse;
 import org.codeprofile.shared.http.Request;
 import org.codeprofile.shared.http.RequestExecutor;
+import org.codeprofile.shared.http.Response;
 
-public class ApiClient implements Service {
+public class ApiGitHubClient<T extends Model> implements Service {
     private static final String BASE_URL = "https://api.github.com";
 
-    @Override
-    public void execute() {
+    private String basePath;
 
+    private Class<T> model;
+
+    public ApiGitHubClient(String basePath, Class<T> model) {
+        this.basePath = basePath;
+        this.model = model;
+    }
+
+    @Override
+    public void execute(Request request, Response response) {
+        System.out.println(this.basePath);
+        System.out.println(this.model);
     }
 
     public ApiResponse getResponse(Request request) {

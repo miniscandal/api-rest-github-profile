@@ -3,6 +3,7 @@ package org.codeprofile.shared.http;
 import java.util.List;
 
 import org.codeprofile.shared.enums.HttpStatus;
+import org.codeprofile.shared.strategies.ServiceStrategy;
 import org.codeprofile.shared.contracts.Service;
 
 import java.io.IOException;
@@ -64,11 +65,11 @@ public abstract class Controller implements HttpHandler {
             return;
         }
 
-        String[] arguments = extractArguments(request.getPath());
+        request.setArguments(extractArguments(request.getPath()));
 
-        request.setArguments(arguments);
-
-        this.service.execute();
+        if (this instanceof ServiceStrategy) {
+            this.service.execute(request, response);
+        }
 
         get(request, response).send();
     }
