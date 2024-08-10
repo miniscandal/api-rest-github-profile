@@ -1,9 +1,8 @@
 package org.codeprofile.shared.http;
 
-import java.util.List;
-
 import org.codeprofile.shared.enums.HttpStatus;
 import org.codeprofile.shared.strategies.ServiceStrategy;
+import org.codeprofile.shared.utils.ArgumentsBasePathBinder;
 import org.codeprofile.shared.contracts.Service;
 
 import java.io.IOException;
@@ -22,7 +21,7 @@ import com.sun.net.httpserver.HttpExchange;
 
 public abstract class Controller implements HttpHandler {
     private Service service;
-    private List<String> parameters;
+    private String[] parameters;
 
     private String path;
 
@@ -37,12 +36,12 @@ public abstract class Controller implements HttpHandler {
 
     }
 
-    public List<String> getParameters() {
+    public String[] getParameters() {
         return this.parameters;
     }
 
-    public void setParameters(List<String> parameters) {
-        this.parameters = List.copyOf(parameters);
+    public void setParameters(String[] parameters) {
+        this.parameters = parameters;
     }
 
     public Service getService() {
@@ -65,10 +64,13 @@ public abstract class Controller implements HttpHandler {
             return;
         }
 
-        request.setArguments(extractArguments(request.getPath()));
+        String[] arguments = extractArguments(request.getPath());
+        request.setArguments(arguments);
+        ArgumentsBasePathBinder argumentsBasePathBinder;
+        argumentsBasePathBinder = new ArgumentsBasePathBinder(this.parameters, arguments);
 
         if (this instanceof ServiceStrategy) {
-            this.service.execute(request, response);
+            this.service.execute(request, response, argumentsBasePathBinder);
         }
 
         get(request, response).send();

@@ -3,7 +3,7 @@ package org.codeprofile.shared.utils;
 import java.util.Map;
 import java.util.HashMap;
 
-public class ArgumentsParametersMapper {
+public class ArgumentsBasePathBinder {
     private String[] parameters;
     private String[] arguments;
     private Map<String, String> map;
@@ -12,7 +12,7 @@ public class ArgumentsParametersMapper {
         return map;
     }
 
-    public ArgumentsParametersMapper(String[] parameters, String[] arguments) {
+    public ArgumentsBasePathBinder(String[] parameters, String[] arguments) {
         this.parameters = parameters;
         this.arguments = arguments;
 

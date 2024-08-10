@@ -12,6 +12,7 @@ import org.codeprofile.shared.http.ApiResponse;
 import org.codeprofile.shared.http.Request;
 import org.codeprofile.shared.http.RequestExecutor;
 import org.codeprofile.shared.http.Response;
+import org.codeprofile.shared.utils.ArgumentsBasePathBinder;
 
 public class ApiGitHubClient<T extends Model> implements Service {
     private static final String BASE_URL = "https://api.github.com";
@@ -27,7 +28,7 @@ public class ApiGitHubClient<T extends Model> implements Service {
     }
 
     @Override
-    public void execute(Request request, Response response) {
+    public void execute(Request request, Response response, ArgumentsBasePathBinder argumentsBasepathBinder) {
         response.setData("basePath: ", this.basePath);
         response.setHttpStatus(HttpStatus.OK);
     }

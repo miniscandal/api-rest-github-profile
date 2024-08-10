@@ -1,13 +1,11 @@
 package org.codeprofile.shared.utils;
 
-import java.util.List;
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class BasePath {
     private String path;
-    private List<String> parameters = new ArrayList<String>();
+    private String[] parameters;
     private static final String BASE_PATH_PARAM_REGEX = "\\{(.*?)\\}";
     private static final String BASE_PATH_CLEAN_REGEX = "/\\{.*?\\}/?$";
     private static final String BASE_PATH_VALID_REGEX = "^(/\\w+)+(/\\{[a-zA-Z]+\\})*$";
@@ -22,7 +20,7 @@ public class BasePath {
         return this.path;
     }
 
-    public List<String> getParameters() {
+    public String[] getParameters() {
         return this.parameters;
     }
 
@@ -42,13 +40,22 @@ public class BasePath {
         return matcher.replaceAll("");
     }
 
-    public static List<String> retrieveBasePathParameters(String basePath) {
+    public static String[] retrieveBasePathParameters(String basePath) {
         Pattern pattern = Pattern.compile(BASE_PATH_PARAM_REGEX);
         Matcher matcher = pattern.matcher(basePath);
-        List<String> parameters = new ArrayList<String>();
+
+        int count = 0;
 
         while (matcher.find()) {
-            parameters.add(matcher.group(1));
+            count++;
+        }
+
+        String[] parameters = new String[count];
+
+        matcher.reset();
+        int index = 0;
+        while (matcher.find()) {
+            parameters[index++] = matcher.group(1);
         }
 
         return parameters;
