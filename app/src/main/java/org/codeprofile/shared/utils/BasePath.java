@@ -35,6 +35,13 @@ public class BasePath {
         }
     }
 
+    public static String removeBasePathParameters(String basePath) {
+        Pattern pattern = Pattern.compile(BASE_PATH_CLEAN_REGEX);
+        Matcher matcher = pattern.matcher(basePath);
+
+        return matcher.replaceAll("");
+    }
+
     public static List<String> retrieveBasePathParameters(String basePath) {
         Pattern pattern = Pattern.compile(BASE_PATH_PARAM_REGEX);
         Matcher matcher = pattern.matcher(basePath);
@@ -45,12 +52,5 @@ public class BasePath {
         }
 
         return parameters;
-    }
-
-    public static String removeBasePathParameters(String basePath) {
-        Pattern pattern = Pattern.compile(BASE_PATH_CLEAN_REGEX);
-        Matcher matcher = pattern.matcher(basePath);
-
-        return matcher.replaceAll("");
     }
 }

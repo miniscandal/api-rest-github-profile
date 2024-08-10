@@ -18,6 +18,7 @@ public class ApiGitHubClient<T extends Model> implements Service {
 
     private String basePath;
 
+    @SuppressWarnings("unused")
     private Class<T> model;
 
     public ApiGitHubClient(String basePath, Class<T> model) {
@@ -27,8 +28,8 @@ public class ApiGitHubClient<T extends Model> implements Service {
 
     @Override
     public void execute(Request request, Response response) {
-        System.out.println(this.basePath);
-        System.out.println(this.model);
+        response.setData("basePath: ", this.basePath);
+        response.setHttpStatus(HttpStatus.OK);
     }
 
     public ApiResponse getResponse(Request request) {

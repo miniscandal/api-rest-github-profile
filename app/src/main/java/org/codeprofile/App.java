@@ -13,8 +13,4 @@ public class App {
 
         Route.get("/profiles/{name}", new ProfileController());
     }
-
-    public String descendants() {
-        return "descendants";
-    }
 }
