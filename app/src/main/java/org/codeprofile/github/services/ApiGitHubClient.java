@@ -1,17 +1,11 @@
 package org.codeprofile.github.services;
 
-import java.io.IOException;
-import java.io.InputStream;
-
-import java.net.http.HttpResponse;
-
 import org.codeprofile.github.database.Model;
+import org.codeprofile.github.network.HttpClient;
 import org.codeprofile.shared.contracts.Service;
-import org.codeprofile.shared.enums.HttpStatus;
 import org.codeprofile.shared.integration.ApiResponse;
-import org.codeprofile.shared.integration.Request;
-import org.codeprofile.shared.integration.Response;
-import org.codeprofile.shared.network.RequestExecutor;
+import org.codeprofile.shared.network.Request;
+import org.codeprofile.shared.network.Response;
 import org.codeprofile.shared.utils.BasePath;
 
 public class ApiGitHubClient<T extends Model> implements Service {
@@ -30,37 +24,12 @@ public class ApiGitHubClient<T extends Model> implements Service {
     @Override
     public void execute(Request request, Response response) {
 
-        String path = BasePath.formatPath(basePath, request.getParametersArguments());
-
-        ApiResponse apiResponse = getResponse(path);
-
-        System.out.println(apiResponse.geHttpStatus().getCode());
-    }
-
-    public ApiResponse getResponse(String path) {
-        InputStream body;
-        HttpStatus httpStatus;
-        HttpResponse<InputStream> response;
-
-        try {
-            response = sendRequest(path);
-            httpStatus = HttpStatus.fromCode(response.statusCode());
-            body = response.statusCode() == HttpStatus.OK.getCode() ? response.body() : null;
-
-        } catch (IOException | InterruptedException e) {
-            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
-            body = null;
-        }
-        return new ApiResponse(httpStatus, body);
-
-    }
-
-    public HttpResponse<InputStream> sendRequest(String path) throws IOException, InterruptedException {
-        HttpResponse<InputStream> response = null;
+        String path = BasePath.formatPath(this.basePath, request.getParametersArguments());
 
         String uri = BASE_URL + path;
-        response = RequestExecutor.sendRequest(uri);
 
-        return response;
+        ApiResponse apiResponse = HttpClient.getResponse(uri);
+
+        System.out.println(apiResponse);
     }
 }

@@ -3,8 +3,8 @@ package org.codeprofile.internal.http.controllers;
 import org.codeprofile.internal.models.Documentation;
 import org.codeprofile.shared.enums.HttpStatus;
 import org.codeprofile.shared.http.Controller;
-import org.codeprofile.shared.integration.Request;
-import org.codeprofile.shared.integration.Response;
+import org.codeprofile.shared.network.Request;
+import org.codeprofile.shared.network.Response;
 
 import com.google.gson.Gson;
 

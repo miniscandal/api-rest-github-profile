@@ -13,10 +13,7 @@ public class RequestExecutor {
 
     public static HttpResponse<InputStream> sendRequest(String uri) throws IOException, InterruptedException {
         HttpRequest request = createRequest(uri);
-        HttpResponse<InputStream> response;
-        response = httpClient.send(request, HttpResponse.BodyHandlers.ofInputStream());
-
-        return response;
+        return httpClient.send(request, HttpResponse.BodyHandlers.ofInputStream());
     }
 
     private static HttpRequest createRequest(String uri) {

@@ -4,8 +4,8 @@ import java.util.Map;
 import java.util.HashMap;
 
 import org.codeprofile.shared.enums.HttpStatus;
-import org.codeprofile.shared.integration.Request;
-import org.codeprofile.shared.integration.Response;
+import org.codeprofile.shared.network.Request;
+import org.codeprofile.shared.network.Response;
 import org.codeprofile.shared.strategies.ServiceStrategy;
 import org.codeprofile.shared.contracts.Service;
 

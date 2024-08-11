@@ -1,4 +1,4 @@
-package org.codeprofile.shared.integration;
+package org.codeprofile.shared.network;
 
 import java.util.Map;
 
