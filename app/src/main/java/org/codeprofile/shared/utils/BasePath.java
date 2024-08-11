@@ -46,7 +46,7 @@ public class BasePath {
         return parameters;
     }
 
-    public String formatPath(String path, Map<String, String> map) {
+    public static String formatPath(String path, Map<String, String> map) {
         for (Map.Entry<String, String> entry : map.entrySet()) {
             String target = "{" + entry.getKey() + "}";
             path = path.replace(target, entry.getValue());

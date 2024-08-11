@@ -10,7 +10,6 @@ import org.codeprofile.github.http.controllers.ProfileController;
 
 public class App {
     public static void main(String... args) {
-
         Route.get("/profiles/{name}", new ProfileController());
     }
 }

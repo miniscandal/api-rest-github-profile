@@ -12,6 +12,7 @@ import org.codeprofile.shared.http.ApiResponse;
 import org.codeprofile.shared.http.Request;
 import org.codeprofile.shared.http.RequestExecutor;
 import org.codeprofile.shared.http.Response;
+import org.codeprofile.shared.utils.BasePath;
 
 public class ApiGitHubClient<T extends Model> implements Service {
     private static final String BASE_URL = "https://api.github.com";
@@ -28,35 +29,37 @@ public class ApiGitHubClient<T extends Model> implements Service {
 
     @Override
     public void execute(Request request, Response response) {
-        response.setData("basePath: ", this.basePath);
-        response.setHttpStatus(HttpStatus.OK);
+
+        String path = BasePath.formatPath(basePath, request.getParametersArguments());
+
+        ApiResponse apiResponse = getResponse(path);
+
+        System.out.println(apiResponse.geHttpStatus().getCode());
     }
 
-    public ApiResponse getResponse(Request request) {
+    public ApiResponse getResponse(String path) {
         InputStream body;
         HttpStatus httpStatus;
         HttpResponse<InputStream> response;
 
         try {
-
-            response = sendRequest(request);
+            response = sendRequest(path);
             httpStatus = HttpStatus.fromCode(response.statusCode());
             body = response.statusCode() == HttpStatus.OK.getCode() ? response.body() : null;
 
         } catch (IOException | InterruptedException e) {
-
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
             body = null;
-
         }
         return new ApiResponse(httpStatus, body);
 
     }
 
-    public HttpResponse<InputStream> sendRequest(Request request) throws IOException, InterruptedException {
+    public HttpResponse<InputStream> sendRequest(String path) throws IOException, InterruptedException {
         HttpResponse<InputStream> response = null;
 
-        response = RequestExecutor.sendRequest(BASE_URL + "users/miniscandal");
+        String uri = BASE_URL + path;
+        response = RequestExecutor.sendRequest(uri);
 
         return response;
     }
