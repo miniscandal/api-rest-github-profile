@@ -1,5 +1,7 @@
 package org.codeprofile.shared.http;
 
+import java.util.Map;
+
 import com.sun.net.httpserver.HttpExchange;
 
 public class Request {
@@ -7,8 +9,18 @@ public class Request {
 
     private String[] arguments;
 
+    private Map<String, String> parametersArguments;
+
     public Request(HttpExchange httpExchange) {
         this.path = httpExchange.getRequestURI().getPath();
+    }
+
+    public Map<String, String> getParametersArguments() {
+        return parametersArguments;
+    }
+
+    public void setParametersArguments(Map<String, String> parametersArguments) {
+        this.parametersArguments = parametersArguments;
     }
 
     public String[] getArguments() {

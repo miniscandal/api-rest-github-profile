@@ -15,16 +15,16 @@ public final class Route {
     }
 
     public static void get(String path, Controller controller) {
-        BasePath basePath = new BasePath(path);
+        BasePath.validate(path);
 
-        configureController(basePath, controller);
+        configureController(path, controller);
 
-        httpServer.createContext(basePath.getPath(), controller);
+        httpServer.createContext(BasePath.removeParameters(path), controller);
     }
 
-    public static void configureController(BasePath basePath, Controller controller) {
-        controller.setPath(basePath.getPath());
-        controller.setParameters(basePath.getParameters());
+    public static void configureController(String path, Controller controller) {
+        controller.setPath(BasePath.removeParameters(path));
+        controller.setParameters(BasePath.retrieveParameters(path));
 
         if (controller instanceof ServiceStrategy) {
             controller.setService(((ServiceStrategy) controller).newService());

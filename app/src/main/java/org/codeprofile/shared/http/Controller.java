@@ -1,8 +1,10 @@
 package org.codeprofile.shared.http;
 
+import java.util.Map;
+import java.util.HashMap;
+
 import org.codeprofile.shared.enums.HttpStatus;
 import org.codeprofile.shared.strategies.ServiceStrategy;
-import org.codeprofile.shared.utils.ArgumentsBasePathBinder;
 import org.codeprofile.shared.contracts.Service;
 
 import java.io.IOException;
@@ -64,16 +66,36 @@ public abstract class Controller implements HttpHandler {
             return;
         }
 
-        String[] arguments = extractArguments(request.getPath());
-        request.setArguments(arguments);
-        ArgumentsBasePathBinder argumentsBasePathBinder;
-        argumentsBasePathBinder = new ArgumentsBasePathBinder(this.parameters, arguments);
+        if (this.parameters.length >= 0 && this.parameters != null) {
+            String[] arguments = extractArguments(request.getPath());
+
+            if (arguments.length != this.parameters.length) {
+                response.setData("message", "expected arguments");
+                response.setHttpStatus(HttpStatus.BAD_REQUEST);
+                response.send();
+
+                return;
+            }
+
+            request.setArguments(arguments);
+            request.setParametersArguments(createMap(this.parameters, arguments));
+        }
 
         if (this instanceof ServiceStrategy) {
-            this.service.execute(request, response, argumentsBasePathBinder);
+            this.service.execute(request, response);
         }
 
         get(request, response).send();
+    }
+
+    public Map<String, String> createMap(String[] parameters, String[] arguments) {
+        Map<String, String> map = new HashMap<>();
+
+        for (int i = 0; i < arguments.length; i++) {
+            map.put(parameters[i], arguments[i]);
+        }
+
+        return map;
     }
 
     public String[] extractArguments(String path) {

@@ -1,48 +1,33 @@
 package org.codeprofile.shared.utils;
 
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class BasePath {
-    private String path;
-    private String[] parameters;
     private static final String BASE_PATH_PARAM_REGEX = "\\{(.*?)\\}";
     private static final String BASE_PATH_CLEAN_REGEX = "/\\{.*?\\}/?$";
     private static final String BASE_PATH_VALID_REGEX = "^(/\\w+)+(/\\{[a-zA-Z]+\\})*$";
 
-    public BasePath(String basePath) {
-        this.validateBasePath(basePath);
-        this.path = removeBasePathParameters(basePath);
-        this.parameters = retrieveBasePathParameters(basePath);
-    }
-
-    public String getPath() {
-        return this.path;
-    }
-
-    public String[] getParameters() {
-        return this.parameters;
-    }
-
-    private void validateBasePath(String basePath) {
+    public static void validate(String path) {
         Pattern pattern = Pattern.compile(BASE_PATH_VALID_REGEX);
-        Matcher matcher = pattern.matcher(basePath);
+        Matcher matcher = pattern.matcher(path);
 
         if (!matcher.matches()) {
             throw new IllegalArgumentException("Invalid base path format");
         }
     }
 
-    public static String removeBasePathParameters(String basePath) {
+    public static String removeParameters(String path) {
         Pattern pattern = Pattern.compile(BASE_PATH_CLEAN_REGEX);
-        Matcher matcher = pattern.matcher(basePath);
+        Matcher matcher = pattern.matcher(path);
 
         return matcher.replaceAll("");
     }
 
-    public static String[] retrieveBasePathParameters(String basePath) {
+    public static String[] retrieveParameters(String path) {
         Pattern pattern = Pattern.compile(BASE_PATH_PARAM_REGEX);
-        Matcher matcher = pattern.matcher(basePath);
+        Matcher matcher = pattern.matcher(path);
 
         int count = 0;
 
@@ -59,5 +44,14 @@ public class BasePath {
         }
 
         return parameters;
+    }
+
+    public String formatPath(String path, Map<String, String> map) {
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            String target = "{" + entry.getKey() + "}";
+            path = path.replace(target, entry.getValue());
+        }
+
+        return path;
     }
 }
