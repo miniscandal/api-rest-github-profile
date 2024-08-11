@@ -8,10 +8,10 @@ import java.net.http.HttpResponse;
 import org.codeprofile.github.database.Model;
 import org.codeprofile.shared.contracts.Service;
 import org.codeprofile.shared.enums.HttpStatus;
-import org.codeprofile.shared.http.ApiResponse;
-import org.codeprofile.shared.http.Request;
-import org.codeprofile.shared.http.RequestExecutor;
-import org.codeprofile.shared.http.Response;
+import org.codeprofile.shared.integration.ApiResponse;
+import org.codeprofile.shared.integration.Request;
+import org.codeprofile.shared.integration.Response;
+import org.codeprofile.shared.network.RequestExecutor;
 import org.codeprofile.shared.utils.BasePath;
 
 public class ApiGitHubClient<T extends Model> implements Service {

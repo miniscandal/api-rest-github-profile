@@ -1,4 +1,4 @@
-package org.codeprofile.shared.http;
+package org.codeprofile.shared.integration;
 
 import java.io.IOException;
 import java.io.OutputStream;

@@ -3,8 +3,8 @@ package org.codeprofile.internal.http.controllers;
 import org.codeprofile.internal.models.About;
 import org.codeprofile.shared.enums.HttpStatus;
 import org.codeprofile.shared.http.Controller;
-import org.codeprofile.shared.http.Request;
-import org.codeprofile.shared.http.Response;
+import org.codeprofile.shared.integration.Request;
+import org.codeprofile.shared.integration.Response;
 
 public class AboutController extends Controller {
     @Override

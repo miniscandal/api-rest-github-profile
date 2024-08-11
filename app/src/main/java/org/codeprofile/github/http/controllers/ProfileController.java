@@ -3,8 +3,8 @@ package org.codeprofile.github.http.controllers;
 import org.codeprofile.github.contracts.ApiGitHub;
 import org.codeprofile.github.models.Profile;
 import org.codeprofile.shared.http.Controller;
-import org.codeprofile.shared.http.Request;
-import org.codeprofile.shared.http.Response;
+import org.codeprofile.shared.integration.Request;
+import org.codeprofile.shared.integration.Response;
 
 public class ProfileController extends Controller implements ApiGitHub<Profile> {
     @Override
