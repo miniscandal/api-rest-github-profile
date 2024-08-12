@@ -62,7 +62,7 @@ public abstract class Controller implements HttpHandler {
         Request request = new Request(httpExchange);
 
         if (!request.getPath().startsWith(this.path + "/")) {
-            response.setHttpStatus(HttpStatus.NOT_FOUND_CONTEXT);
+            response.setHttpStatus(HttpStatus.NOT_FOUND);
             response.send();
 
             return;
@@ -72,7 +72,6 @@ public abstract class Controller implements HttpHandler {
             String[] arguments = extractArguments(request.getPath());
 
             if (arguments.length != this.parameters.length) {
-                response.setData("message", "expected arguments");
                 response.setHttpStatus(HttpStatus.BAD_REQUEST);
                 response.send();
 

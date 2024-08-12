@@ -7,7 +7,6 @@ public enum HttpStatus {
     OK(200, "OK"),
     BAD_REQUEST(400, "Bad Request"),
     NOT_FOUND(404, "Not Found"),
-    NOT_FOUND_CONTEXT(404, "Not Found Context"),
     INTERNAL_SERVER_ERROR(500, "Internal Server Error"),
     INTERNAL_API_GIT_HUB_SERVER_ERROR(502, "Internal APi GitHub Server Error"),
     SERVICE_UNAVAILABLE(503, "Service Unavailable Due To Configuration Issues");
