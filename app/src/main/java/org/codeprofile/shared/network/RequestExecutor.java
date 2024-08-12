@@ -17,11 +17,9 @@ public class RequestExecutor {
     }
 
     private static HttpRequest createRequest(String uri) {
-        HttpRequest request = HttpRequest.newBuilder()
+        return HttpRequest.newBuilder()
                 .uri(URI.create(uri))
                 .GET()
                 .build();
-
-        return request;
     }
 }

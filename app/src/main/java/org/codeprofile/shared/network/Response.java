@@ -1,11 +1,12 @@
 package org.codeprofile.shared.network;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.IOException;
 import java.io.OutputStream;
 
 import java.util.Map;
 
-import org.codeprofile.internal.database.Model;
 import org.codeprofile.shared.enums.HttpStatus;
 
 import java.util.HashMap;
@@ -39,29 +40,35 @@ public class Response {
         this.body = httpExchange.getResponseBody();
     }
 
-    public void setMessage(String statusMessage) {
-        this.statusMessage = statusMessage;
-    }
-
-    public void setData(String key, String value) {
-        this.jsonMap.put(key, value);
-    }
-
     public void setHttpStatus(HttpStatus httpStatus) {
         this.httpStatus = httpStatus;
         this.statusCode = this.httpStatus.getCode();
         this.statusMessage = this.httpStatus.getMessage();
     }
 
+    public void setData(String key, String value) {
+        this.jsonMap.put(key, value);
+    }
+
     public void setData(byte[] data) {
         this.data = data;
     }
 
-    public void setData(Model model) {
+    public void setData(org.codeprofile.internal.database.Model model) {
         Gson gson = new Gson();
         String json = gson.toJson(model);
 
         this.data = json.getBytes();
+    }
+
+    public void setData(String message) {
+        this.data = message.getBytes();
+    }
+
+    public <T extends org.codeprofile.github.database.Model> void setData(InputStream inputStream, Class<T> model) {
+        Gson gson = new Gson();
+        InputStreamReader reader = new InputStreamReader(inputStream);
+        this.data = gson.toJson(gson.fromJson(reader, model)).getBytes();
     }
 
     public void send() {

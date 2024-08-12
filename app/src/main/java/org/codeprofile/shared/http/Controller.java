@@ -15,11 +15,17 @@ import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpExchange;
 
 /*
- * Class Properties
+ * Class Responsibility
  * 
- * parameters: son los parametros esperados que se definen en el contexto del controlador concreto
- * path: es el contexto sin parametros relacionado con el controlador concreto
- * example: "/document/{id}" donde /document es el contexto y {id} es el parametro que se espera
+ * Define la logica funcional base para todos los controladores.
+ * Maneja las peticiones y las respuestas http de los clientes.
+ * 
+ * 
+ * Properties
+ * 
+ * @parameters: son los parametros esperados que se definen en el contexto del controlador concreto
+ * @path: es el contexto sin parametros relacionado con el controlador concreto. * 
+ * example: "/document/{id}" donde /document es el contexto y {id} es el parametro que se espera.
  * 
  */
 
@@ -28,6 +34,14 @@ public abstract class Controller implements HttpHandler {
     private String[] parameters;
 
     private String path;
+
+    /*
+     * Method handle GET request
+     * 
+     * @param request the http
+     * 
+     * @param response the http
+     */
 
     public abstract Response get(Request request, Response response);
 

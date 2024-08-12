@@ -13,7 +13,7 @@ public class ApiResponse {
         this.body = body;
     }
 
-    public HttpStatus geHttpStatus() {
+    public HttpStatus getHttpStatus() {
         return this.httpStatus;
     }
 
