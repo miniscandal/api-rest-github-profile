@@ -16,9 +16,7 @@ public final class Route {
 
     public static void get(String path, Controller controller) {
         BasePath.validate(path);
-
         configureController(path, controller);
-
         httpServer.createContext(BasePath.removeParameters(path), controller);
     }
 

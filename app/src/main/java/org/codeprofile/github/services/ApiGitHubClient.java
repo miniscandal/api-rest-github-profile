@@ -10,9 +10,7 @@ import org.codeprofile.shared.utils.BasePath;
 
 public class ApiGitHubClient<T extends Model> implements Service {
     private static final String BASE_URL = "https://api.github.com";
-
     private String basePath;
-
     private Class<T> model;
 
     public ApiGitHubClient(String basePath, Class<T> model) {
@@ -23,7 +21,7 @@ public class ApiGitHubClient<T extends Model> implements Service {
     @Override
     public void execute(Request request, Response response) {
         String path = BasePath.formatPath(this.basePath, request.getParametersArguments());
-        ApiResponse apiResponse = HttpClient.getResponse(BASE_URL + path);
+        ApiResponse apiResponse = HttpClient.get(BASE_URL + path);
 
         if (apiResponse.getBody() != null) {
             response.setData(apiResponse.getBody(), model);

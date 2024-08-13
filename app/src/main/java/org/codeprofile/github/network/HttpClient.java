@@ -11,21 +11,16 @@ import org.codeprofile.shared.network.RequestExecutor;
 
 public class HttpClient {
 
-    public static ApiResponse getResponse(String uri) {
-        InputStream body;
-        HttpStatus httpStatus;
-
-        HttpResponse<InputStream> response;
+    public static ApiResponse get(String uri) {
         try {
-            response = RequestExecutor.sendRequest(uri);
-            httpStatus = HttpStatus.fromCode(response.statusCode());
-            body = response.statusCode() == HttpStatus.OK.getCode() ? response.body() : null;
+            HttpResponse<InputStream> response = RequestExecutor.get(uri);
+            HttpStatus httpStatus = HttpStatus.fromCode(response.statusCode());
+            InputStream body = response.statusCode() == HttpStatus.OK.getCode()
+                    ? response.body()
+                    : null;
+            return new ApiResponse(httpStatus, body);
         } catch (IOException | InterruptedException e) {
-            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
-            body = null;
+            return new ApiResponse(HttpStatus.INTERNAL_SERVER_ERROR, null);
         }
-
-        return new ApiResponse(httpStatus, body);
-
     }
 }
