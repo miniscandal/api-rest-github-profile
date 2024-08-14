@@ -17,36 +17,26 @@ import com.sun.net.httpserver.HttpExchange;
 /*
  * Class Responsibility
  * 
- * Define la logica funcional base para todos los controladores.
- * Maneja las peticiones y las respuestas http de los clientes.
+ * Base class for all controllers.
+ * Handle HTTP request and response from clients.
  * 
+ * Implementation notes
  * 
- * Properties
- * 
- * @parameters: son los parametros esperados que se definen en el contexto del controlador concreto
- * @path: es el contexto sin parametros relacionado con el controlador concreto. * 
- * example: "/document/{id}" donde /document es el contexto y {id} es el parametro que se espera.
+ * @parameters: son los parametros esperados que se definen en el contexto del controlador concreto.
+ * @path: es el contexto sin parametros relacionado con el controlador concreto.
+ * example: "/document/{id}" donde /document es el contexto y {id} es el parametro esperado.
  * 
  */
 
 public abstract class Controller implements HttpHandler {
     private Service service;
     private String[] parameters;
-
     private String path;
-
-    /*
-     * Method handle GET request
-     * 
-     * @param request the http
-     * 
-     * @param response the http
-     */
 
     public abstract Response get(Request request, Response response);
 
     public String getPath() {
-        return path;
+        return this.path;
     }
 
     public void setPath(String path) {
@@ -75,25 +65,14 @@ public abstract class Controller implements HttpHandler {
         Response response = new Response(httpExchange);
         Request request = new Request(httpExchange);
 
-        if (!request.getPath().startsWith(this.path + "/")) {
-            response.setHttpStatus(HttpStatus.NOT_FOUND);
-            response.send();
-
+        if (!isContextRoute(request, response)) {
             return;
         }
 
-        if (this.parameters.length >= 0 && this.parameters != null) {
-            String[] arguments = extractArguments(request.getPath());
+        boolean parametersExpected = this.parameters.length > 0 && this.parameters != null;
 
-            if (arguments.length != this.parameters.length) {
-                response.setHttpStatus(HttpStatus.BAD_REQUEST);
-                response.send();
-
-                return;
-            }
-
-            request.setArguments(arguments);
-            request.setParametersArguments(createMap(this.parameters, arguments));
+        if (!parametersExpected || !isNumberExpectedArguments(request, response)) {
+            return;
         }
 
         if (this instanceof ServiceStrategy) {
@@ -103,7 +82,34 @@ public abstract class Controller implements HttpHandler {
         get(request, response).send();
     }
 
-    public Map<String, String> createMap(String[] parameters, String[] arguments) {
+    private boolean isContextRoute(Request request, Response response) {
+        boolean isContextRoute = request.getPath().startsWith(this.path + "/");
+
+        if (!isContextRoute) {
+            response.setHttpStatus(HttpStatus.NOT_FOUND);
+            response.send();
+        }
+
+        return isContextRoute;
+    }
+
+    private boolean isNumberExpectedArguments(Request request, Response response) {
+        String[] arguments = extractArguments(request.getPath());
+        boolean expected = arguments.length == this.parameters.length;
+
+        if (expected) {
+            request.setArguments(arguments);
+            request.setParametersArguments(createMap(this.parameters, arguments));
+        } else {
+            response.setHttpStatus(HttpStatus.BAD_REQUEST);
+            response.send();
+
+        }
+
+        return expected;
+    }
+
+    private Map<String, String> createMap(String[] parameters, String[] arguments) {
         Map<String, String> map = new HashMap<>();
 
         for (int i = 0; i < arguments.length; i++) {
@@ -113,7 +119,8 @@ public abstract class Controller implements HttpHandler {
         return map;
     }
 
-    public String[] extractArguments(String path) {
+    private String[] extractArguments(String path) {
         return path.replace(this.path + "/", "").split("/");
     }
+
 }
