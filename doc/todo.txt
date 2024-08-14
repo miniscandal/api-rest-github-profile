@@ -4,3 +4,4 @@
 ⚝ Documentar el codigo
 ⚝ Implementar test unitario
 ⚝ Abstraer la clase Controller en tres clases BaseController, HandleArgument y Controller
+⚝ Refactorizar la clase Response para que no utilize referencia completa de las clases Model
