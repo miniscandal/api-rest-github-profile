@@ -1,11 +1,6 @@
 ⚝ Configure environment variable for host and port
 ⚝ Inmplementar Handle custom exceptions
 ⚝ Validar que los parametros de las uri o puntos de acceso coincidan con los parametros de la url definida en su controlador asignado
-⚝ Validar las URIs definidas en los controladores
 ⚝ Documentar el codigo
 ⚝ Implementar test unitario
-⚝ Validar cuando no se recivan arguemntos que se esperan
-⚝ Cambiar la logica de manejo de request, para no tener intancias de objetos co el mismo proposito (Codigo Repetido)
-⚝ Delegar la responsabilidad de la peticion a la api de github a Response class o a Controller class
-⚝ Response requiere un map con donde la clave es el nombre del parametro que esperea y el valor es el argumento recivido en el request
-⚝ Implementar interface ExpectedArgument para los controladores que esperan argumentos del request
+⚝ Abstraer la clase Controller en tres clases BaseController, HandleArgument y Controller

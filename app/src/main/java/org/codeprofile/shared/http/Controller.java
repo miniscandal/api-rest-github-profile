@@ -22,9 +22,9 @@ import com.sun.net.httpserver.HttpExchange;
  * 
  * Implementation notes
  * 
- * @parameters: son los parametros esperados que se definen en el contexto del controlador concreto.
- * @path: es el contexto sin parametros relacionado con el controlador concreto.
- * example: "/document/{id}" donde /document es el contexto y {id} es el parametro esperado.
+ * @parameters: These are the expected parameters defined within the context of the specific controller.
+ * @path: This is the context without parameters related to the specific controller.
+ * example: "/document/{id}" where /document is the context and {id} is the expected parameter.
  * 
  */
 

@@ -1,0 +1,10 @@
+cURL
+
+⚝ For convert response to Json format: | ConvertFrom-Json | ConvertTo-Json
+
+⚝ For get only headers: -I
+
+
+Network Statistics
+
+⚝ netstat -aon
