@@ -6,7 +6,7 @@ $requests = @(
     @{ url = "http://127.0.0.1:3001/non-existent-context"; type = "text" }
     @{ url = "http://127.0.0.1:3001/about"; type = "json" },
     @{ url = "http://127.0.0.1:3001/documentation"; type = "json" }
-)
+l )
 
 $interval = 5
 

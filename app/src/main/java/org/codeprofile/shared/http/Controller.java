@@ -7,6 +7,7 @@ import org.codeprofile.shared.enums.HttpStatus;
 import org.codeprofile.shared.network.Request;
 import org.codeprofile.shared.network.Response;
 import org.codeprofile.shared.strategies.ServiceStrategy;
+import org.codeprofile.shared.utils.HandleArguments;
 import org.codeprofile.shared.contracts.Service;
 
 import java.io.IOException;
@@ -69,10 +70,8 @@ public abstract class Controller implements HttpHandler {
             return;
         }
 
-        boolean parametersExpected = this.parameters.length > 0 && this.parameters != null;
-
-        if (!parametersExpected || !isNumberExpectedArguments(request, response)) {
-            return;
+        if (this.parameters.length > 0) {
+            handleExpectedArguments(request, response);
         }
 
         if (this instanceof ServiceStrategy) {
@@ -83,8 +82,8 @@ public abstract class Controller implements HttpHandler {
     }
 
     private boolean isContextRoute(Request request, Response response) {
-        boolean isContextRoute = request.getPath().startsWith(this.path + "/");
-
+        String slash = this.parameters.length == 0 ? "" : "/";
+        boolean isContextRoute = request.getPath().startsWith(this.path + slash);
         if (!isContextRoute) {
             response.setHttpStatus(HttpStatus.NOT_FOUND);
             response.send();
@@ -93,20 +92,16 @@ public abstract class Controller implements HttpHandler {
         return isContextRoute;
     }
 
-    private boolean isNumberExpectedArguments(Request request, Response response) {
-        String[] arguments = extractArguments(request.getPath());
-        boolean expected = arguments.length == this.parameters.length;
+    private void handleExpectedArguments(Request request, Response response) {
+        String[] arguments = HandleArguments.extractArguments(request.getPath(), this.path);
 
-        if (expected) {
+        if (arguments.length == this.parameters.length) {
             request.setArguments(arguments);
             request.setParametersArguments(createMap(this.parameters, arguments));
         } else {
             response.setHttpStatus(HttpStatus.BAD_REQUEST);
             response.send();
-
         }
-
-        return expected;
     }
 
     private Map<String, String> createMap(String[] parameters, String[] arguments) {
@@ -118,9 +113,4 @@ public abstract class Controller implements HttpHandler {
 
         return map;
     }
-
-    private String[] extractArguments(String path) {
-        return path.replace(this.path + "/", "").split("/");
-    }
-
 }
