@@ -1,6 +1,6 @@
 package org.codeprofile.github.models;
 
-import org.codeprofile.github.database.Model;
+import org.codeprofile.shared.database.Model;
 
 public class Repo extends Model {
     private String id;

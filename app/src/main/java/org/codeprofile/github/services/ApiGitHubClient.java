@@ -1,8 +1,8 @@
 package org.codeprofile.github.services;
 
-import org.codeprofile.github.database.Model;
 import org.codeprofile.github.network.HttpClient;
 import org.codeprofile.shared.contracts.Service;
+import org.codeprofile.shared.database.Model;
 import org.codeprofile.shared.integration.ApiResponse;
 import org.codeprofile.shared.network.Request;
 import org.codeprofile.shared.network.Response;

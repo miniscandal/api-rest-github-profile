@@ -7,6 +7,7 @@ import java.io.OutputStream;
 
 import java.util.Map;
 
+import org.codeprofile.shared.database.Model;
 import org.codeprofile.shared.enums.HttpStatus;
 
 import java.util.HashMap;
@@ -54,7 +55,7 @@ public class Response {
         this.data = data;
     }
 
-    public void setData(org.codeprofile.internal.database.Model model) {
+    public void setData(Model model) {
         Gson gson = new Gson();
         String json = gson.toJson(model);
 
@@ -65,7 +66,7 @@ public class Response {
         this.data = message.getBytes();
     }
 
-    public <T extends org.codeprofile.github.database.Model> void setData(InputStream inputStream, Class<T> model) {
+    public <T extends Model> void setData(InputStream inputStream, Class<T> model) {
         Gson gson = new Gson();
         InputStreamReader reader = new InputStreamReader(inputStream);
         this.data = gson.toJson(gson.fromJson(reader, model)).getBytes();

@@ -1,6 +1,6 @@
 package org.codeprofile.internal.models;
 
-import org.codeprofile.internal.database.Model;
+import org.codeprofile.shared.database.Model;
 
 public class About extends Model {
     private String name;

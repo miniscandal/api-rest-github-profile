@@ -3,7 +3,7 @@ package org.codeprofile.internal.models;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.codeprofile.internal.database.Model;
+import org.codeprofile.shared.database.Model;
 
 public class Documentation extends Model {
     private String version;
