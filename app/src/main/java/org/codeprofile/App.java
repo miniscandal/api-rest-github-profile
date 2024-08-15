@@ -1,7 +1,5 @@
 /* 
- * Responsibility:
- *
- * Defines the Rest API endpoints with their respective controllers.
+  * Defines the Rest API endpoints with their respective controllers.
  */
 package org.codeprofile;
 
