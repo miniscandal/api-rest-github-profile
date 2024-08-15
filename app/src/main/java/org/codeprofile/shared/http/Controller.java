@@ -1,8 +1,5 @@
 package org.codeprofile.shared.http;
 
-import java.util.Map;
-import java.util.HashMap;
-
 import org.codeprofile.shared.enums.HttpStatus;
 import org.codeprofile.shared.network.Request;
 import org.codeprofile.shared.network.Response;
@@ -34,6 +31,15 @@ public abstract class Controller implements HttpHandler {
     private String[] parameters;
     private String path;
 
+    /*
+     * Handle GET request. Must be implemented by subclasses.
+     * 
+     * @param request the HTTP request.
+     * 
+     * @param response the HTTP response.
+     * 
+     * @return response object to be sent.
+     */
     public abstract Response get(Request request, Response response);
 
     public String getPath() {
@@ -71,7 +77,7 @@ public abstract class Controller implements HttpHandler {
         }
 
         if (this.parameters.length > 0) {
-            handleExpectedArguments(request, response);
+            processExpectedArguments(request, response);
         }
 
         if (this instanceof ServiceStrategy) {
@@ -92,25 +98,15 @@ public abstract class Controller implements HttpHandler {
         return isContextRoute;
     }
 
-    private void handleExpectedArguments(Request request, Response response) {
+    private void processExpectedArguments(Request request, Response response) {
         String[] arguments = HandleArguments.extractArguments(request.getPath(), this.path);
 
         if (arguments.length == this.parameters.length) {
             request.setArguments(arguments);
-            request.setParametersArguments(createMap(this.parameters, arguments));
+            request.setParametersArguments(HandleArguments.createRelationship(this.parameters, arguments));
         } else {
             response.setHttpStatus(HttpStatus.BAD_REQUEST);
             response.send();
         }
-    }
-
-    private Map<String, String> createMap(String[] parameters, String[] arguments) {
-        Map<String, String> map = new HashMap<>();
-
-        for (int i = 0; i < arguments.length; i++) {
-            map.put(parameters[i], arguments[i]);
-        }
-
-        return map;
     }
 }

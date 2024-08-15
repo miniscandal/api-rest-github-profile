@@ -1,7 +1,7 @@
-⚝ Configure environment variable for host and port
-⚝ Inmplementar Handle custom exceptions
-⚝ Validar que los parametros de las uri o puntos de acceso coincidan con los parametros de la url definida en su controlador asignado
-⚝ Documentar el codigo
-⚝ Implementar test unitario
-⚝ Abstraer la clase Controller en tres clases BaseController, HandleArgument y Controller
-⚝ 
+⚝ Configure environment variable for host and port  
+⚝ Implement custom exception handling  
+⚝ Validate that URI parameters or endpoints match the parameters of the URL defined in their assigned controller  
+⚝ Document the code  
+⚝ Implement unit tests  
+⚝ Add null checks in setters, avoid assigning null values, and throw appropriate exceptions if necessary  
+⚝ Improve the modularity of the `handle` method in "Controller.class"
