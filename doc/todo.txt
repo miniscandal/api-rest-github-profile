@@ -3,5 +3,4 @@
 ⚝ Validate that URI parameters or endpoints match the parameters of the URL defined in their assigned controller  
 ⚝ Document the code  
 ⚝ Implement unit tests  
-⚝ Add null checks in setters, avoid assigning null values, and throw appropriate exceptions if necessary  
-⚝ Improve the modularity of the `handle` method in "Controller.class"
+⚝ Add null checks in setters, avoid assigning null values, and throw appropriate exceptions if necessary
