@@ -1,6 +1,5 @@
 ⚝ Configure environment variable for host and port  
-⚝ Implement custom exception handling  
-⚝ Validate that URI parameters or endpoints match the parameters of the URL defined in their assigned controller  
+⚝ Implement custom exception handling
 ⚝ Document the code  
 ⚝ Implement unit tests  
 ⚝ Add null checks in setters, avoid assigning null values, and throw appropriate exceptions if necessary

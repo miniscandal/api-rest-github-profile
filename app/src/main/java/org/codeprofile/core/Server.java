@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import java.net.InetSocketAddress;
 
+import org.codeprofile.shared.exceptions.ServerException;
+
 import com.sun.net.httpserver.HttpServer;
 
 public class Server {
@@ -15,9 +17,8 @@ public class Server {
         try {
             httpServer = HttpServer.create();
             httpServer.bind(new InetSocketAddress(SERVER_HOSTNAME, SERVER_PORT), 0);
-
         } catch (IOException e) {
-            throw new RuntimeException("Error creating HTTP server: " + e.getMessage(), e);
+            throw new ServerException(e);
         }
     }
 
