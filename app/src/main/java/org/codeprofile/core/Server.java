@@ -30,4 +30,8 @@ public class Server {
         httpServer.start();
         System.out.printf("Local: http://%s:%d/%n", SERVER_HOSTNAME, SERVER_PORT);
     }
+
+    public static void stop(int delay) {
+        httpServer.stop(delay);
+    }
 }

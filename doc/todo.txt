@@ -3,3 +3,4 @@
 ⚝ Document the code  
 ⚝ Implement unit tests  
 ⚝ Add null checks in setters, avoid assigning null values, and throw appropriate exceptions if necessary
+⚝ Implement Logger instead of system
