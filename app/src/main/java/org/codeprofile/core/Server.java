@@ -18,7 +18,9 @@ public class Server {
             httpServer = HttpServer.create();
             httpServer.bind(new InetSocketAddress(SERVER_HOSTNAME, SERVER_PORT), 0);
         } catch (IOException e) {
-            throw new ServerException(e);
+            ServerException exception = new ServerException("Error creating and binding server", e);
+            System.out.println(exception.getDefaultMessage());
+            throw exception;
         }
     }
 

@@ -2,7 +2,7 @@ package org.codeprofile.shared.exceptions;
 
 public class ExpectedBasePathException extends Exception {
     private static final String DEFAULT_MESSAGE;
-    private static final int ERROR_CODE = 1001;
+    private static final int ERROR_CODE = 03;
 
     private final String contextInfo;
 
@@ -22,18 +22,18 @@ public class ExpectedBasePathException extends Exception {
         return this.contextInfo;
     }
 
+    public ExpectedBasePathException(Throwable cause) {
+        super("Exception Message: " + DEFAULT_MESSAGE, cause);
+        this.contextInfo = "Context Information: " + DEFAULT_MESSAGE;
+    }
+
     public ExpectedBasePathException(String contextInfo, Throwable cause) {
-        super(DEFAULT_MESSAGE, cause);
-        this.contextInfo = "Context Information: " + contextInfo;
+        super("Context Information: " + contextInfo, cause);
+        this.contextInfo = "Context Information: " + DEFAULT_MESSAGE;
     }
 
     public ExpectedBasePathException(String contextInfo) {
         super("Context Information: " + contextInfo);
-        this.contextInfo = contextInfo;
-    }
-
-    @Override
-    public String toString() {
-        return "ExpectedBasePathException";
+        this.contextInfo = "Context Information: " + contextInfo;
     }
 }
