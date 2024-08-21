@@ -1,9 +1,10 @@
 package org.codeprofile.github.contracts;
 
-import org.codeprofile.core.Server;
+import org.codeprofile.core.http.Server;
 import org.codeprofile.github.services.ApiGitHubClient;
 import org.codeprofile.shared.contracts.Service;
 import org.codeprofile.shared.database.Model;
+import org.codeprofile.shared.enums.ExceptionMessage;
 import org.codeprofile.shared.exceptions.ExpectedBasePathException;
 import org.codeprofile.shared.http.Controller;
 import org.codeprofile.shared.strategies.ServiceStrategy;
@@ -18,8 +19,8 @@ public interface ApiGitHub<T extends Model> extends ServiceStrategy {
 
         for (String parameter : parameters) {
             if (!getBasePath().contains(parameter)) {
-                String contextInfo = "Expected base path does not contain parameter: " + parameter;
-                throw new ExpectedBasePathException(contextInfo);
+                String message = ExceptionMessage.EXPECTED_ARGUMENT.getMessage() + ": " + parameter;
+                throw new ExpectedBasePathException(message);
             }
         }
     }
@@ -30,7 +31,7 @@ public interface ApiGitHub<T extends Model> extends ServiceStrategy {
             validateExpectedArgumentsBasePath();
             return new ApiGitHubClient<>(getBasePath(), getModel());
         } catch (ExpectedBasePathException e) {
-            System.out.println(e.getDefaultMessage());
+            System.out.println(e.getMainMessage());
             e.printStackTrace();
             Server.stop(0);
         }

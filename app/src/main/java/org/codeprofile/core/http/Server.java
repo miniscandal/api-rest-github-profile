@@ -1,10 +1,11 @@
-package org.codeprofile.core;
+package org.codeprofile.core.http;
 
 import java.io.IOException;
 
 import java.net.InetSocketAddress;
 
-import org.codeprofile.shared.exceptions.ServerException;
+import org.codeprofile.core.enums.ExceptionMessage;
+import org.codeprofile.core.exceptions.ServerException;
 
 import com.sun.net.httpserver.HttpServer;
 
@@ -18,8 +19,8 @@ public class Server {
             httpServer = HttpServer.create();
             httpServer.bind(new InetSocketAddress(SERVER_HOSTNAME, SERVER_PORT), 0);
         } catch (IOException e) {
-            ServerException exception = new ServerException("Error creating and binding server", e);
-            System.out.println(exception.getDefaultMessage());
+            ServerException exception = new ServerException(ExceptionMessage.SERVER_BIND.getMessage(), e);
+            System.out.println(exception.getMainMessage());
             throw exception;
         }
     }

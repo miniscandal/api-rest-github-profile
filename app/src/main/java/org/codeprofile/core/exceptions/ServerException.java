@@ -1,27 +1,27 @@
-package org.codeprofile.shared.exceptions;
+package org.codeprofile.core.exceptions;
 
 import org.codeprofile.shared.contracts.CustomException;
 
-public class ExpectedBasePathException extends Exception implements CustomException {
+public class ServerException extends RuntimeException implements CustomException {
     private static final String MAIN_MESSAGE;
-    private final int EXCEPTION_CODE = 3;
+    private static final int EXCEPTION_CODE = 2;
 
-    private String contextInformation = "No context information";
+    private String contextInformation;
 
     static {
-        MAIN_MESSAGE = "Exception: The format of the base path is not as expected base on the context path";
+        MAIN_MESSAGE = "Exception: The server could not be created or bind";
     }
 
-    public ExpectedBasePathException(Throwable cause) {
+    public ServerException(Throwable cause) {
         super("", cause);
     }
 
-    public ExpectedBasePathException(String contextInformation, Throwable cause) {
+    public ServerException(String contextInformation, Throwable cause) {
         super(contextInformation, cause);
         this.contextInformation = contextInformation;
     }
 
-    public ExpectedBasePathException(String contextInformation) {
+    public ServerException(String contextInformation) {
         super(contextInformation);
         this.contextInformation = contextInformation;
     }
