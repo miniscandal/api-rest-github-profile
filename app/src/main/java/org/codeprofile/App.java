@@ -1,6 +1,6 @@
 package org.codeprofile;
 
-import org.codeprofile.core.http.Route;
+import org.codeprofile.core.network.Route;
 import org.codeprofile.github.http.controllers.CommitController;
 import org.codeprofile.github.http.controllers.ProfileController;
 import org.codeprofile.github.http.controllers.RepoController;

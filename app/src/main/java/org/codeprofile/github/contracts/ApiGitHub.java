@@ -1,6 +1,6 @@
 package org.codeprofile.github.contracts;
 
-import org.codeprofile.core.http.Server;
+import org.codeprofile.core.network.Server;
 import org.codeprofile.github.services.ApiGitHubClient;
 import org.codeprofile.shared.contracts.Service;
 import org.codeprofile.shared.database.Model;

@@ -8,12 +8,19 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
+import org.codeprofile.shared.exceptions.HttpClientException;
+
 public class RequestExecutor {
     private static final HttpClient httpClient = HttpClient.newHttpClient();
 
-    public static HttpResponse<InputStream> get(String uri) throws IOException, InterruptedException {
+    public static HttpResponse<InputStream> get(String uri) throws HttpClientException {
         HttpRequest request = createGet(uri);
-        return httpClient.send(request, HttpResponse.BodyHandlers.ofInputStream());
+
+        try {
+            return httpClient.send(request, HttpResponse.BodyHandlers.ofInputStream());
+        } catch (IOException | InterruptedException e) {
+            throw new HttpClientException(e);
+        }
     }
 
     private static HttpRequest createGet(String uri) {

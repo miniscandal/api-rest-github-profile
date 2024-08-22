@@ -1,4 +1,4 @@
-package org.codeprofile.core.http;
+package org.codeprofile.core.network;
 
 import org.codeprofile.shared.http.Controller;
 import org.codeprofile.shared.strategies.ServiceStrategy;

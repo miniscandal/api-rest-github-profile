@@ -1,11 +1,11 @@
 package org.codeprofile.github.network;
 
-import java.io.IOException;
 import java.io.InputStream;
 
 import java.net.http.HttpResponse;
 
 import org.codeprofile.shared.enums.HttpStatus;
+import org.codeprofile.shared.exceptions.HttpClientException;
 import org.codeprofile.shared.integration.ApiResponse;
 import org.codeprofile.shared.network.RequestExecutor;
 
@@ -18,8 +18,11 @@ public class HttpClient {
             InputStream body = response.statusCode() == HttpStatus.OK.getCode()
                     ? response.body()
                     : null;
+
             return new ApiResponse(httpStatus, body);
-        } catch (IOException | InterruptedException e) {
+        } catch (HttpClientException e) {
+            System.out.println(e.getMainMessage());
+            e.printStackTrace();
             return new ApiResponse(HttpStatus.INTERNAL_SERVER_ERROR, null);
         }
     }

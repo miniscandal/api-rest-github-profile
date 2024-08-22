@@ -1,27 +1,27 @@
-package org.codeprofile.shared.exceptions;
+package org.codeprofile.github.exceptions;
 
 import org.codeprofile.shared.contracts.CustomException;
 
-public class ExpectedBasePathException extends Exception implements CustomException {
+public class ServiceException extends Exception implements CustomException {
     private static final String MAIN_MESSAGE;
-    private final int EXCEPTION_CODE = 51;
+    private final int EXCEPTION_CODE = 101;
 
     private String contextInformation = "No context information";
 
     static {
-        MAIN_MESSAGE = "Exception: The format of the base path is not as expected base on the context path";
+        MAIN_MESSAGE = "Exception: La conexion con se serviico de la api de github no logro ralizar";
     }
 
-    public ExpectedBasePathException(Throwable cause) {
+    public ServiceException(Throwable cause) {
         super("", cause);
     }
 
-    public ExpectedBasePathException(String contextInformation, Throwable cause) {
+    public ServiceException(String contextInformation, Throwable cause) {
         super(contextInformation, cause);
         this.contextInformation = contextInformation;
     }
 
-    public ExpectedBasePathException(String contextInformation) {
+    public ServiceException(String contextInformation) {
         super(contextInformation);
         this.contextInformation = contextInformation;
     }

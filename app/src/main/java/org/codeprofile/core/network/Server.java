@@ -1,4 +1,4 @@
-package org.codeprofile.core.http;
+package org.codeprofile.core.network;
 
 import java.io.IOException;
 

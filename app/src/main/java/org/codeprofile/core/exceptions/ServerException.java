@@ -4,7 +4,7 @@ import org.codeprofile.shared.contracts.CustomException;
 
 public class ServerException extends RuntimeException implements CustomException {
     private static final String MAIN_MESSAGE;
-    private static final int EXCEPTION_CODE = 2;
+    private static final int EXCEPTION_CODE = 1;
 
     private String contextInformation;
 
