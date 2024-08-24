@@ -23,6 +23,7 @@ public class HttpClient {
         } catch (HttpClientException e) {
             System.out.println(e.getMainMessage());
             e.printStackTrace();
+
             return new ApiResponse(HttpStatus.INTERNAL_SERVER_ERROR, null);
         }
     }

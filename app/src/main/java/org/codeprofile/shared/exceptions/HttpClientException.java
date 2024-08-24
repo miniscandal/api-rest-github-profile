@@ -9,7 +9,7 @@ public class HttpClientException extends Exception implements CustomException {
     private String contextInformation = "No context information";
 
     static {
-        MAIN_MESSAGE = "Exception: La peticion get al servicion no fue exitoza";
+        MAIN_MESSAGE = "Exception: The request executer to the service was not successful";
     }
 
     public HttpClientException(Throwable cause) {

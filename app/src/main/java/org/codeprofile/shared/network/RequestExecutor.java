@@ -8,6 +8,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
+import org.codeprofile.shared.enums.ExceptionMessage;
 import org.codeprofile.shared.exceptions.HttpClientException;
 
 public class RequestExecutor {
@@ -19,7 +20,7 @@ public class RequestExecutor {
         try {
             return httpClient.send(request, HttpResponse.BodyHandlers.ofInputStream());
         } catch (IOException | InterruptedException e) {
-            throw new HttpClientException(e);
+            throw new HttpClientException(ExceptionMessage.REQUEST_NOT_SUCCESSFUL.getMessage(), e);
         }
     }
 
