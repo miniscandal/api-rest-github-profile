@@ -5,3 +5,5 @@
 ⚝ Add null checks in setters, avoid assigning null values, and throw appropriate exceptions if necessary
 ⚝ Implement Logger instead of system
 ⚝ Change the standard output of the exception stack trace
+⚝ Implement exception code as enums
+⚝ Refactor code and reimplement logic in the CustomException class and in the concrete classes that implement this abstract class

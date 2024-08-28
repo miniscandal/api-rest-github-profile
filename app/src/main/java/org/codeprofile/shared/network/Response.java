@@ -8,7 +8,9 @@ import java.io.OutputStream;
 import java.util.Map;
 
 import org.codeprofile.shared.database.Model;
+import org.codeprofile.shared.enums.ExceptionMessage;
 import org.codeprofile.shared.enums.HttpStatus;
+import org.codeprofile.shared.exceptions.FailedSendResponse;
 
 import java.util.HashMap;
 
@@ -92,7 +94,9 @@ public class Response {
             this.httpExchange.sendResponseHeaders(this.statusCode, jsonBytes.length);
             this.body.write(jsonBytes);
         } catch (IOException e) {
-            throw new RuntimeException("Failed to send response", e);
+            FailedSendResponse exception = new FailedSendResponse(ExceptionMessage.SEND_RESPONSE.getMessage(), e);
+            System.out.println(exception.getMainMessage());
+            throw exception;
         }
     }
 }
