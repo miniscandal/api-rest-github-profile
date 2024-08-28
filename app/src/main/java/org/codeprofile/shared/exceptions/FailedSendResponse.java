@@ -1,10 +1,11 @@
 package org.codeprofile.shared.exceptions;
 
 import org.codeprofile.shared.contracts.CustomException;
+import org.codeprofile.shared.enums.ExceptionCode;
 
 public class FailedSendResponse extends RuntimeException implements CustomException {
     private static final String MAIN_MESSAGE;
-    private static final int EXCEPTION_CODE = 53;
+    private static final int EXCEPTION_CODE = ExceptionCode.FAILED_SEND_RESPONSE.getCode();
 
     private String contextInformation;
 

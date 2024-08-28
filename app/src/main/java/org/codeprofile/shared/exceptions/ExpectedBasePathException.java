@@ -1,10 +1,11 @@
 package org.codeprofile.shared.exceptions;
 
 import org.codeprofile.shared.contracts.CustomException;
+import org.codeprofile.shared.enums.ExceptionCode;
 
 public class ExpectedBasePathException extends Exception implements CustomException {
     private static final String MAIN_MESSAGE;
-    private final int EXCEPTION_CODE = 51;
+    private final int EXCEPTION_CODE = ExceptionCode.EXPECTED_BASE_PATH.getCode();
 
     private String contextInformation = "No context information";
 

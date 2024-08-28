@@ -1,10 +1,11 @@
 package org.codeprofile.shared.exceptions;
 
 import org.codeprofile.shared.contracts.CustomException;
+import org.codeprofile.shared.enums.ExceptionCode;
 
 public class HttpClientException extends Exception implements CustomException {
     private static final String MAIN_MESSAGE;
-    private final int EXCEPTION_CODE = 52;
+    private final int EXCEPTION_CODE = ExceptionCode.HTTP_CLIENT_EXCEPTION.getCode();
 
     private String contextInformation = "No context information";
 

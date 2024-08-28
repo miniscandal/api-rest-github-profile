@@ -2,7 +2,6 @@
 ⚝ Implement custom exception handling
 ⚝ Document the code  
 ⚝ Implement unit tests  
-⚝ Add null checks in setters, avoid assigning null values, and throw appropriate exceptions if necessary
 ⚝ Implement Logger instead of system
 ⚝ Change the standard output of the exception stack trace
 ⚝ Implement exception code as enums
