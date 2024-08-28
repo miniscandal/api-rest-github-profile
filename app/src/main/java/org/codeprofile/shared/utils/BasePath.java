@@ -4,6 +4,10 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.codeprofile.core.network.Server;
+import org.codeprofile.shared.enums.ExceptionMessage;
+import org.codeprofile.shared.exceptions.IllegalBasePathFormat;
+
 public class BasePath {
     private static final String BASE_PATH_PARAM_REGEX = "\\{(.*?)\\}";
     private static final String BASE_PATH_CLEAN_REGEX = "/\\{.*?\\}/?$";
@@ -14,7 +18,10 @@ public class BasePath {
         Matcher matcher = pattern.matcher(path);
 
         if (!matcher.matches()) {
-            throw new IllegalArgumentException("Invalid base path format");
+            IllegalBasePathFormat exception = new IllegalBasePathFormat(ExceptionMessage.BASE_PATH_FORMAT.getMessage());
+            System.out.println(exception.getMainMessage());
+            Server.stop(0);
+            throw exception;
         }
     }
 
