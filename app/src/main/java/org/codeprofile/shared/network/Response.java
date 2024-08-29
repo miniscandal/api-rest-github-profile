@@ -95,7 +95,7 @@ public class Response {
             this.body.write(jsonBytes);
         } catch (IOException e) {
             FailedSendResponse exception = new FailedSendResponse(ExceptionMessage.SEND_RESPONSE.getMessage(), e);
-            System.out.println(exception.printMainMessage());
+            exception.printMainMessage();
             throw exception;
         }
     }

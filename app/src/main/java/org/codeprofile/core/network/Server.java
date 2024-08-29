@@ -20,7 +20,7 @@ public class Server {
             httpServer.bind(new InetSocketAddress(SERVER_HOSTNAME, SERVER_PORT), 0);
         } catch (IOException e) {
             ServerException exception = new ServerException(ExceptionMessage.SERVER_BIND.getMessage(), e);
-            System.out.println(exception.printMainMessage());
+            exception.printMainMessage();
             throw exception;
         }
     }

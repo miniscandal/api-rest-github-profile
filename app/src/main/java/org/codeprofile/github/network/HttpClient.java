@@ -19,7 +19,7 @@ public class HttpClient {
 
             return new ApiResponse(httpStatus, body);
         } catch (HttpClientException e) {
-            System.out.println(e.printMainMessage());
+            e.printMainMessage();
             e.printStackTrace();
 
             return new ApiResponse(HttpStatus.INTERNAL_SERVER_ERROR, null);

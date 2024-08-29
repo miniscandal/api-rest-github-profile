@@ -7,7 +7,7 @@ public interface CustomException {
 
     int getExceptionCode();
 
-    default String printMainMessage() {
-        return getMainMessage();
+    default void printMainMessage() {
+        System.out.println(getMainMessage());
     }
 }
