@@ -6,4 +6,8 @@ public interface CustomException {
     String getContextInformation();
 
     int getExceptionCode();
+
+    default String printMainMessage() {
+        return getMainMessage();
+    }
 }

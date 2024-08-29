@@ -15,13 +15,11 @@ public class HttpClient {
         try {
             HttpResponse<InputStream> response = RequestExecutor.get(uri);
             HttpStatus httpStatus = HttpStatus.fromCode(response.statusCode());
-            InputStream body = response.statusCode() == HttpStatus.OK.getCode()
-                    ? response.body()
-                    : null;
+            InputStream body = response.statusCode() == HttpStatus.OK.getCode() ? response.body() : null;
 
             return new ApiResponse(httpStatus, body);
         } catch (HttpClientException e) {
-            System.out.println(e.getMainMessage());
+            System.out.println(e.printMainMessage());
             e.printStackTrace();
 
             return new ApiResponse(HttpStatus.INTERNAL_SERVER_ERROR, null);

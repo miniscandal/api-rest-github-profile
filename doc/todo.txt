@@ -4,5 +4,6 @@
 ⚝ Implement unit tests  
 ⚝ Implement Logger instead of system
 ⚝ Change the standard output of the exception stack trace
-⚝ Implement exception code as enums
 ⚝ Refactor code and reimplement logic in the CustomException class and in the concrete classes that implement this abstract class
+⚝ Reimplement logic in the method printMainMessage in the CustomException class
+⚝ Implement class ServiceException, no use class, not knows use

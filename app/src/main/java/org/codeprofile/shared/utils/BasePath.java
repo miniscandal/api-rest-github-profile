@@ -19,7 +19,7 @@ public class BasePath {
 
         if (!matcher.matches()) {
             IllegalBasePathFormat exception = new IllegalBasePathFormat(ExceptionMessage.BASE_PATH_FORMAT.getMessage());
-            System.out.println(exception.getMainMessage());
+            System.out.println(exception.printMainMessage());
             Server.stop(0);
             throw exception;
         }

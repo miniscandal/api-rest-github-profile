@@ -31,7 +31,7 @@ public interface ApiGitHub<T extends Model> extends ServiceStrategy {
             validateExpectedArgumentsBasePath();
             return new ApiGitHubClient<>(getBasePath(), getModel());
         } catch (ExpectedBasePathException e) {
-            System.out.println(e.getMainMessage());
+            System.out.println(e.printMainMessage());
             e.printStackTrace();
             Server.stop(0);
         }
