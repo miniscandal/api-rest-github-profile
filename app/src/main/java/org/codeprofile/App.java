@@ -12,7 +12,7 @@ public class App {
         Route.get("/about", new AboutController());
         Route.get("/documentation", new DocumentationController());
         Route.get("/profiles/{name}", new ProfileController());
-        Route.get("/repos/{name}", new RepoController());
+        Route.get("/repos/{profile}/{name}", new RepoController());
         Route.get("/commits/{name}/{repo}", new CommitController());
     }
 }
