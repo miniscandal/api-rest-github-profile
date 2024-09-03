@@ -22,11 +22,9 @@ public class ApiGitHubClient<T extends Model> implements Service {
     public void execute(Request request, Response response) {
         String path = BasePath.formatPath(this.basePath, request.getParametersArguments());
         ApiResponse apiResponse = HttpClient.get(BASE_URL + path);
-
         if (apiResponse.getBody() != null) {
-            response.setData(apiResponse.getBody(), model);
+            response.loadModels(apiResponse.getBody(), model);
         }
-
         response.setHttpStatus(apiResponse.getHttpStatus());
     }
 }

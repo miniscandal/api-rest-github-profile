@@ -13,6 +13,6 @@ public class App {
         Route.get("/documentation", new DocumentationController());
         Route.get("/profiles/{name}", new ProfileController());
         Route.get("/repos/{profile}/{name}", new RepoController());
-        Route.get("/commits/{name}/{repo}", new CommitController());
+        Route.get("/commits/{profile}/{name}", new CommitController());
     }
 }

@@ -1,6 +1,8 @@
 package org.codeprofile.github.models;
 
-public class Commit {
+import org.codeprofile.shared.database.Model;
+
+public class Commit extends Model {
     private String sha;
     private CommitData commit;
 
@@ -24,7 +26,7 @@ public class Commit {
             return message;
         }
 
-        static class Author {
+        class Author {
             private String name;
             private String email;
             private String date;

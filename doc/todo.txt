@@ -6,3 +6,5 @@
 ⚝ Refactor code and reimplement logic in the CustomException class and in the concrete classes that implement this abstract class
 ⚝ Implement class ServiceException, no use class, not knows use
 ⚝ Fixe bug, excepted base path
+⚝ Implement pagination and count commits of the repositories
+⚝ Implement use method loadModels or loadModels

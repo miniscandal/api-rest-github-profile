@@ -4,7 +4,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.IOException;
 import java.io.OutputStream;
-
+import java.lang.reflect.Array;
 import java.util.Map;
 
 import org.codeprofile.shared.database.Model;
@@ -68,10 +68,28 @@ public class Response {
         this.data = message.getBytes();
     }
 
-    public <T extends Model> void setData(InputStream inputStream, Class<T> model) {
+    public <T extends Model> void loadModel(InputStream inputStream, Class<T> model) {
         Gson gson = new Gson();
         InputStreamReader reader = new InputStreamReader(inputStream);
+
         this.data = gson.toJson(gson.fromJson(reader, model)).getBytes();
+
+        // Object objectsArray = Array.newInstance(model, 0);
+        // Object[] objects = (Object[]) gson.fromJson(reader, objectsArray.getClass());
+
+        // T[] objects = gson.fromJson(reader, models);
+        // this.data = gson.toJson(objects).getBytes();
+    }
+
+    public <T extends Model> void loadModels(InputStream inputStream, Class<T> model) {
+        Gson gson = new Gson();
+        InputStreamReader reader = new InputStreamReader(inputStream);
+
+        Object objectsArray = Array.newInstance(model, 0);
+
+        @SuppressWarnings("unchecked")
+        T[] objects = (T[]) gson.fromJson(reader, objectsArray.getClass());
+        this.data = gson.toJson(objects).getBytes();
     }
 
     public void send() {
