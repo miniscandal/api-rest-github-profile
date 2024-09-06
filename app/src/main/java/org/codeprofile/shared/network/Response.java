@@ -73,12 +73,6 @@ public class Response {
         InputStreamReader reader = new InputStreamReader(inputStream);
 
         this.data = gson.toJson(gson.fromJson(reader, model)).getBytes();
-
-        // Object objectsArray = Array.newInstance(model, 0);
-        // Object[] objects = (Object[]) gson.fromJson(reader, objectsArray.getClass());
-
-        // T[] objects = gson.fromJson(reader, models);
-        // this.data = gson.toJson(objects).getBytes();
     }
 
     public <T extends Model> void loadModels(InputStream inputStream, Class<T> model) {
